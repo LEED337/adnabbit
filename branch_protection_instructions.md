@@ -1,7 +1,7 @@
 # Checking Branch Protection Rules in GitHub
 
 ## Step 1: Go to Repository Settings
-1. Navigate to your GitHub repository: https://github.com/LEED337/muststash
+1. Navigate to your GitHub repository: https://github.com/LEED337/adnabbit
 2. Click on the "Settings" tab at the top of the repository page
 
 ## Step 2: Access Branch Protection Rules

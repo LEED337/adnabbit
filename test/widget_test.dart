@@ -8,12 +8,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:muststash/main.dart';
+import 'package:adnabbit/main.dart';
 
 void main() {
-  testWidgets('MustStash app smoke test', (WidgetTester tester) async {
+  testWidgets('AdNabbit app smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(const MustStashApp());
+    await tester.pumpWidget(const AdNabbitApp());
 
     // Verify that the app loads without crashing
     await tester.pumpAndSettle();

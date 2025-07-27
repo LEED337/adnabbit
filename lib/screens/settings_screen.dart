@@ -107,7 +107,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
           const SizedBox(width: 16),
           Image.asset(
-            'assets/images/muststash_logo.png',
+            'assets/images/adnabbit_logo.png',
             width: 40,
             height: 40,
           ),
@@ -117,7 +117,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'MustStash',
+                  'AdNabbit',
                   style: Theme.of(context).textTheme.titleLarge?.copyWith(
                     color: Colors.white,
                     fontWeight: FontWeight.w800,
@@ -632,8 +632,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
         title: const Text('Privacy Policy'),
         content: const SingleChildScrollView(
           child: Text(
-            'MustStash Privacy Policy\n\n'
-            'Your privacy is important to us. This app stores data locally on your device and does not transmit personal information to external servers.\n\n'
+            'AdNabbit Privacy Policy\n\n'
+            'Your privacy is important to us. This platform stores data locally on your device and does not transmit personal information to external servers.\n\n'
             'Data Collection:\n'
             '• Transaction data (stored locally)\n'
             '• Savings goals and preferences\n'
@@ -662,12 +662,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
         title: const Text('Terms of Service'),
         content: const SingleChildScrollView(
           child: Text(
-            'MustStash Terms of Service\n\n'
-            'By using this app, you agree to the following terms:\n\n'
-            '1. This is a demo application for educational purposes\n'
-            '2. No real financial transactions are processed\n'
+            'AdNabbit Terms of Service\n\n'
+            'By using this platform, you agree to the following terms:\n\n'
+            '1. This is a demo platform for educational purposes\n'
+            '2. No real advertising transactions are processed\n'
             '3. Data is stored locally on your device\n'
-            '4. The app is provided "as is" without warranties\n'
+            '4. The platform is provided "as is" without warranties\n'
             '5. Users are responsible for their own data backup\n\n'
             'For questions, please contact support.',
           ),

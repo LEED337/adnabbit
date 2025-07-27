@@ -121,7 +121,7 @@ class _RewardsScreenState extends State<RewardsScreen> {
           ),
           const SizedBox(width: 16),
           Image.asset(
-            'assets/images/muststash_logo.png',
+            'assets/images/adnabbit_logo.png',
             width: 40,
             height: 40,
           ),
@@ -131,7 +131,7 @@ class _RewardsScreenState extends State<RewardsScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'MustStash',
+                  'AdNabbit',
                   style: Theme.of(context).textTheme.titleLarge?.copyWith(
                     color: Colors.white,
                     fontWeight: FontWeight.w800,

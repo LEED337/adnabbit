@@ -200,7 +200,7 @@ class _BankConnectionScreenState extends State<BankConnectionScreen> {
           ),
           const SizedBox(width: 16),
           Image.asset(
-            'assets/images/muststash_logo.png',
+            'assets/images/adnabbit_logo.png',
             width: 40,
             height: 40,
           ),

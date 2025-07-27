@@ -91,13 +91,13 @@ class _LandingPageState extends State<LandingPage>
           Row(
             children: [
               Image.asset(
-                'assets/images/muststash_logo.png',
+                'assets/images/adnabbit_logo.png',
                 width: 40,
                 height: 40,
               ),
               const SizedBox(width: 12),
               const Text(
-                'MustStash',
+                'AdNabbit',
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,

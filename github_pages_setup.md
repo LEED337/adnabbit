@@ -1,7 +1,7 @@
 # Setting Up GitHub Pages Correctly
 
 ## Step 1: Check GitHub Pages Settings
-1. Go to your repository: https://github.com/LEED337/muststash
+1. Go to your repository: https://github.com/LEED337/adnabbit
 2. Click on "Settings"
 3. In the left sidebar, click on "Pages"
 
@@ -14,7 +14,7 @@
 ## Step 3: Check Deployment Status
 1. After saving, GitHub will show a message like "Your site is being built"
 2. Wait a few minutes for the deployment to complete
-3. Once done, you'll see a message with your site's URL: "Your site is live at https://leed337.github.io/muststash/"
+3. Once done, you'll see a message with your site's URL: "Your site is live at https://leed337.github.io/adnabbit/"
 
 ## Step 4: Check Custom Domain (if applicable)
 1. If you're not using a custom domain, skip this step

@@ -1,49 +1,49 @@
-# 💰 MustStash - Smart Spare Change Savings App
+# 📺 AdNabbit - Digital Screen Advertising Platform
 
-**Transform your spare change into dreams!** MustStash is a fully functional savings app that helps you save for your rewards by automatically rounding up purchases and collecting spare change, similar to apps like Acorns.
+**Transform your digital displays into powerful advertising networks!** AdNabbit is a comprehensive platform for managing and deploying advertisements to digital screens, perfect for businesses, retail locations, and advertising networks.
 
-## 🚀 **Live Demo - Now with Full Functionality!**
-**👉 [Experience MustStash Live!](https://leed337.github.io/muststash/)**
+## 🚀 **Live Demo - Fully Functional Platform!**
+**👉 [Experience AdNabbit Live!](https://LEED337.github.io/adnabbit/)**
 
-*✨ Completely functional app with real data persistence, analytics, and advanced features!*
+*✨ Complete advertising management platform with campaign creation, scheduling, and analytics!*
 
 ## ✨ **Fully Functional Features**
 
-### 🎯 **Core Functionality**
-- ✅ **Real Data Persistence** - All data saves locally with SharedPreferences
-- ✅ **Complete Onboarding Flow** - Welcome users and collect information
-- ✅ **Manual Transaction Entry** - Add purchases and track spare change
-- ✅ **Rewards Management** - Create, edit, delete, and reorder savings goals
-- ✅ **Progress Tracking** - Real-time progress toward rewards
+### 🎯 **Core Advertising Platform**
+- ✅ **Campaign Management** - Create, edit, and deploy advertising campaigns
+- ✅ **Digital Display Control** - Manage multiple screens and display networks
+- ✅ **Content Scheduling** - Schedule ads with precise timing and duration
+- ✅ **Real-time Monitoring** - Live status updates for all connected displays
+- ✅ **Multi-format Support** - Images, videos, and interactive content
 - ✅ **Responsive Design** - Works perfectly on web, mobile, and tablet
 
-### 🔍 **Enhanced Transaction System**
-- ✅ **Search & Filter** - Find transactions by merchant or category
-- ✅ **Date Range Filtering** - View transactions from specific time periods
-- ✅ **Category Management** - Organize transactions by spending categories
-- ✅ **Analytics Dashboard** - Detailed spending insights and breakdowns
-- ✅ **Visual Charts** - Category breakdown with progress indicators
+### 🔍 **Advanced Campaign System**
+- ✅ **Search & Filter** - Find campaigns by client, category, or status
+- ✅ **Date Range Scheduling** - Plan campaigns for specific time periods
+- ✅ **Category Management** - Organize ads by industry and content type
+- ✅ **Performance Analytics** - Detailed campaign performance insights
+- ✅ **Visual Dashboards** - Campaign metrics with real-time charts
 
-### 🎁 **Advanced Rewards Management**
-- ✅ **Drag & Drop Reordering** - Prioritize rewards with intuitive interface
-- ✅ **Edit & Delete** - Full CRUD operations for reward items
-- ✅ **Progress Visualization** - Beautiful progress bars and completion status
-- ✅ **Smart Calculations** - Real-time progress based on actual savings
-- ✅ **Purchase Simulation** - Mark rewards as completed when affordable
+### 📺 **Display Network Management**
+- ✅ **Screen Registration** - Add and configure digital display endpoints
+- ✅ **Remote Control** - Turn displays on/off and adjust settings remotely
+- ✅ **Content Distribution** - Push content to single or multiple screens
+- ✅ **Status Monitoring** - Real-time health checks and error reporting
+- ✅ **Playlist Management** - Create and manage advertising playlists
 
-### ⚙️ **Comprehensive Settings**
-- ✅ **Profile Management** - Edit name, account type, and preferences
-- ✅ **Savings Goals** - Set and modify weekly savings targets
-- ✅ **App Preferences** - Notifications, theme, and currency settings
-- ✅ **Data Management** - Export data and reset app functionality
-- ✅ **Premium Features** - Upgrade simulation with enhanced features
+### ⚙️ **Administrative Controls**
+- ✅ **Client Management** - Manage advertiser accounts and permissions
+- ✅ **Billing Integration** - Track ad spend and generate invoices
+- ✅ **User Preferences** - Notifications, themes, and display settings
+- ✅ **Data Export** - Export campaign data and performance reports
+- ✅ **Premium Features** - Advanced targeting and analytics tools
 
-### 📊 **Analytics & Insights**
-- ✅ **Spending Analytics** - Detailed breakdown by category and time
-- ✅ **Progress Tracking** - Weekly/monthly savings progress
-- ✅ **Visual Dashboards** - Charts, graphs, and progress indicators
-- ✅ **Statistics** - Average transactions, completion rates, and trends
-- ✅ **Export Capabilities** - Download complete data as structured JSON
+### 📊 **Analytics & Reporting**
+- ✅ **Campaign Analytics** - Detailed performance by campaign and screen
+- ✅ **Audience Insights** - View counts, engagement, and demographics
+- ✅ **Visual Reports** - Charts, graphs, and performance indicators
+- ✅ **ROI Tracking** - Revenue attribution and campaign effectiveness
+- ✅ **Export Capabilities** - Download comprehensive reports as PDF/CSV
 
 ## 🚀 Getting Started
 
@@ -75,12 +75,12 @@
 
 ### Screens
 - **Splash Screen**: Beautiful animated loading with gradient background
-- **Onboarding**: Multi-step user introduction with modern UI
-- **Home**: Dashboard with real-time savings overview and quick actions
-- **Coin Jar**: Advanced transaction management with search, filters, and analytics
-- **Rewards**: Complete reward management with drag & drop reordering
-- **Add Reward**: Enhanced form with real-time validation and preview
-- **Settings**: Comprehensive settings with profile, goals, and preferences
+- **Onboarding**: Multi-step platform introduction with modern UI
+- **Dashboard**: Campaign overview with real-time performance metrics
+- **Campaign Manager**: Advanced campaign creation, editing, and scheduling
+- **Display Network**: Screen management with status monitoring and control
+- **Analytics**: Comprehensive reporting with visual charts and insights
+- **Settings**: Administrative controls, user preferences, and system configuration
 
 ### State Management & Data
 - **Provider Pattern**: Robust state management across all screens
@@ -116,24 +116,24 @@
 
 ## 🔮 Future Enhancements
 
-### Phase 3: Bank Integration
-- Real bank account connections via Plaid/Yodlee APIs
-- Automatic transaction import and categorization
-- Secure payment processing with PCI compliance
-- Multi-account support and reconciliation
+### Phase 3: Advanced Display Integration
+- Hardware integration with smart displays and digital signage
+- IoT sensor integration for audience analytics and engagement
+- Real-time content optimization based on viewer demographics
+- Multi-location network management and synchronization
 
-### Phase 4: Advanced Features
-- Price comparison API integration for rewards
-- Affiliate marketing partnerships and commissions
-- Social features and savings challenges
-- Investment recommendations and portfolio integration
-- AI-powered spending insights and predictions
+### Phase 4: AI-Powered Features
+- Automated content generation and optimization
+- Predictive analytics for campaign performance
+- Dynamic pricing based on demand and performance
+- Machine learning for audience targeting and segmentation
+- Computer vision for engagement measurement
 
-### Phase 5: Platform Expansion
-- Native iOS and Android apps with push notifications
-- Wearable device integration (Apple Watch, etc.)
-- Voice assistant integration (Siri, Google Assistant)
-- Desktop applications for comprehensive management
+### Phase 5: Enterprise Platform
+- Native iOS and Android apps for mobile campaign management
+- API integrations with major advertising platforms (Google Ads, Facebook)
+- White-label solutions for advertising agencies
+- Enterprise-grade security and compliance features
 
 ## 🏗️ Technical Architecture
 
@@ -144,69 +144,71 @@
 - **SharedPreferences**: Local data storage
 
 ### Future Backend (Not in MVP)
-- RESTful API for user data
-- Bank integration APIs (Plaid, Yodlee)
-- Price comparison services
-- Payment processing (Stripe, PayPal)
+- RESTful API for campaign and display management
+- Content delivery network (CDN) for media assets
+- Real-time messaging for display synchronization
+- Analytics and reporting services
 
 ## 📊 Business Model
 
 ### Revenue Streams
-1. **Premium Subscriptions**: $5/month for ad-free experience
-2. **Interest Income**: From user savings held in partner banks
-3. **Affiliate Commissions**: From purchase redirections
-4. **Advertising**: Display ads for free tier users
+1. **Platform Subscriptions**: Monthly fees for campaign management and analytics
+2. **Display Network Revenue**: Commission from ad placements on partner screens
+3. **Premium Features**: Advanced targeting, analytics, and automation tools
+4. **Enterprise Licensing**: White-label solutions for advertising agencies
 
 ### Target Market
-- Young adults (18-35) who struggle with saving
-- Impulse buyers who want better financial habits
-- Tech-savvy users comfortable with fintech apps
+- Small to medium businesses looking to advertise locally
+- Retail locations wanting to monetize their digital displays
+- Advertising agencies managing multiple client campaigns
+- Digital signage companies expanding their service offerings
 
-## 🧪 **Experience the Full App**
+## 🧪 **Experience the Full Platform**
 
 ### **Real Functionality**
-The app now includes complete functionality with real data persistence:
-- ✅ **Add Real Transactions** - Manual transaction entry with spare change calculation
-- ✅ **Create & Manage Rewards** - Full CRUD operations with drag & drop reordering
-- ✅ **Advanced Analytics** - Real spending insights and category breakdowns
-- ✅ **Comprehensive Settings** - Profile management, goals, and preferences
-- ✅ **Data Export/Import** - Complete data management capabilities
+The platform now includes complete functionality with real data persistence:
+- ✅ **Create Campaigns** - Full campaign creation with targeting and scheduling
+- ✅ **Manage Display Network** - Add, configure, and monitor digital screens
+- ✅ **Advanced Analytics** - Real campaign performance and audience insights
+- ✅ **Administrative Controls** - Client management, billing, and system settings
+- ✅ **Data Export/Import** - Complete campaign and performance data management
 
 ### **Key Features to Experience**
-1. **🏠 Home Dashboard** - Real-time savings overview and quick actions
-2. **💰 Add Transactions** - Use the floating action button in Coin Jar to add purchases
-3. **🎁 Manage Rewards** - Create, edit, delete, and reorder your savings goals
-4. **📊 View Analytics** - Explore spending insights in the Analytics tab
-5. **⚙️ Customize Settings** - Access via the settings button in the top-right
-6. **🔍 Search & Filter** - Use advanced filtering in the Coin Jar screen
-7. **📱 Responsive Design** - Try it on different screen sizes
+1. **📊 Campaign Dashboard** - Real-time campaign performance and metrics overview
+2. **📺 Create Campaigns** - Use the campaign builder to create and schedule ads
+3. **🖥️ Manage Displays** - Add, configure, and monitor your digital screen network
+4. **📈 View Analytics** - Explore detailed performance insights and reporting
+5. **⚙️ Administrative Panel** - Access client management and system settings
+6. **🔍 Search & Filter** - Use advanced filtering across campaigns and displays
+7. **📱 Responsive Design** - Manage your advertising network from any device
 
 ### **Demo Data Available**
-- Pre-populated sample transactions for immediate exploration
-- Example rewards to demonstrate progress tracking
-- All data can be cleared and replaced with your own
+- Pre-populated sample campaigns for immediate exploration
+- Example display network to demonstrate monitoring capabilities
+- All data can be cleared and replaced with your own campaigns
 
 ## 🎯 **Production-Ready Features**
 
 ### **What Makes This Special**
-- 🚀 **Fully Functional** - Not just a demo, but a complete working app
+- 🚀 **Fully Functional** - Not just a demo, but a complete working platform
 - 💾 **Real Data Persistence** - Everything saves and loads correctly
 - 🎨 **Professional UI/UX** - Modern design with smooth animations
-- 📊 **Advanced Analytics** - Comprehensive spending insights
-- ⚙️ **Complete Settings** - Full user preference management
-- 🔄 **Data Management** - Export/import capabilities for data portability
+- 📊 **Advanced Analytics** - Comprehensive campaign performance insights
+- ⚙️ **Complete Administration** - Full client and system management
+- 🔄 **Data Management** - Export/import capabilities for campaign portability
 
 ## 🔒 Security Considerations (Future)
 
-- Bank-level encryption for financial data
-- PCI DSS compliance for payment processing
-- Multi-factor authentication
+- Enterprise-grade encryption for campaign and client data
+- Secure content delivery and display network protection
+- Multi-factor authentication for administrative access
 - Regular security audits and penetration testing
+- GDPR compliance for audience analytics data
 
 ## 📞 Contact
 
-This MVP demonstrates the core concept and user experience of MustStash. For investment opportunities or partnership discussions, please reach out to discuss the full business plan and technical roadmap.
+This MVP demonstrates the core concept and user experience of AdNabbit. For investment opportunities or partnership discussions, please reach out to discuss the full business plan and technical roadmap.
 
 ---
 
-**Note**: This is an MVP with mock data. Real financial integrations and payment processing will be implemented in subsequent phases with proper security and compliance measures.
+**Note**: This is an MVP with mock data. Real display network integrations and enterprise features will be implemented in subsequent phases with proper security and compliance measures.

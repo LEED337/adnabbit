@@ -87,7 +87,7 @@ class _SplashScreenState extends State<SplashScreen>
                   ),
                   child: Center(
                     child: Image.asset(
-                      'assets/images/muststash_logo.png',
+                      'assets/images/adnabbit_logo.png',
                       width: 100,
                       height: 100,
                     ),
@@ -95,7 +95,7 @@ class _SplashScreenState extends State<SplashScreen>
                 ),
                 const SizedBox(height: 40),
                 const Text(
-                  'MustStash',
+                  'AdNabbit',
                   style: TextStyle(
                     fontSize: 42,
                     fontWeight: FontWeight.w900,
@@ -111,7 +111,7 @@ class _SplashScreenState extends State<SplashScreen>
                     borderRadius: BorderRadius.circular(30),
                   ),
                   child: const Text(
-                    'Save spare change for your dreams',
+                    'Digital Screen Advertising Platform',
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,

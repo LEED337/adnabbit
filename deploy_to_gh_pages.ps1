@@ -3,7 +3,7 @@ $currentBranch = git rev-parse --abbrev-ref HEAD
 
 # Build the Flutter web app
 Write-Host "Building Flutter web app..."
-flutter build web --release --base-href "/muststash/"
+flutter build web --release --base-href "/adnabbit/"
 
 # Switch to gh-pages branch
 Write-Host "Switching to gh-pages branch..."
@@ -33,4 +33,4 @@ git push origin gh-pages
 Write-Host "Switching back to $currentBranch branch..."
 git checkout $currentBranch
 
-Write-Host "Deployment complete! Your site should be live at https://leed337.github.io/muststash/"
+Write-Host "Deployment complete! Your site should be live at https://leed337.github.io/adnabbit/"

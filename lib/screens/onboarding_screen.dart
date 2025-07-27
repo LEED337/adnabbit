@@ -105,13 +105,13 @@ class _OnboardingScreenState extends State<OnboardingScreen> with TickerProvider
           Row(
             children: [
               Image.asset(
-                'assets/images/muststash_logo.png',
+                'assets/images/adnabbit_logo.png',
                 width: 40,
                 height: 40,
               ),
               const SizedBox(width: 12),
               Text(
-                'MustStash',
+                'AdNabbit',
                 style: Theme.of(context).textTheme.titleLarge?.copyWith(
                   fontWeight: FontWeight.w800,
                   color: AppTheme.primaryGreen,
@@ -161,7 +161,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> with TickerProvider
                     ],
                   ),
                   child: Image.asset(
-                    'assets/images/muststash_logo.png',
+                    'assets/images/adnabbit_logo.png',
                     width: 80,
                     height: 80,
                   ),
@@ -230,7 +230,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> with TickerProvider
               ],
             ),
             child: Image.asset(
-              'assets/images/muststash_logo.png',
+              'assets/images/adnabbit_logo.png',
               width: 60,
               height: 60,
             ),
@@ -414,8 +414,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> with TickerProvider
       SnackBar(
         content: Text(
           skipSetup 
-            ? 'Welcome to MustStash!' 
-            : 'Welcome to MustStash, ${_nameController.text.trim()}!',
+            ? 'Welcome to AdNabbit!' 
+            : 'Welcome to AdNabbit, ${_nameController.text.trim()}!',
         ),
         backgroundColor: AppTheme.primaryGreen,
         behavior: SnackBarBehavior.floating,

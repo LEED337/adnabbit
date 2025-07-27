@@ -55,7 +55,7 @@ class _AddRewardScreenState extends State<AddRewardScreen> {
         title: Row(
           children: [
             Image.asset(
-              'assets/images/muststash_logo.png',
+              'assets/images/adnabbit_logo.png',
               width: 36,
               height: 36,
             ),
@@ -65,7 +65,7 @@ class _AddRewardScreenState extends State<AddRewardScreen> {
               mainAxisSize: MainAxisSize.min,
               children: const [
                 Text(
-                  'MustStash',
+                  'AdNabbit',
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,

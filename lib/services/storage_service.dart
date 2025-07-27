@@ -169,7 +169,7 @@ class StorageService {
     };
     
     // For web, we'll log to console. In a real app, this would save to file
-    print('=== MustStash Data Export ===');
+    print('=== AdNabbit Data Export ===');
     print(const JsonEncoder.withIndent('  ').convert(allData));
     print('=== End Export ===');
     

@@ -71,7 +71,7 @@ class HomeScreen extends StatelessWidget {
       child: Row(
         children: [
           Image.asset(
-            'assets/images/muststash_logo.png',
+            'assets/images/adnabbit_logo.png',
             width: 48,
             height: 48,
           ),
@@ -81,14 +81,14 @@ class HomeScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'MustStash',
+                  'AdNabbit',
                   style: Theme.of(context).textTheme.titleLarge?.copyWith(
                     color: Colors.white,
                     fontWeight: FontWeight.w800,
                   ),
                 ),
                 Text(
-                  'Smart savings made simple',
+                  'Digital advertising made simple',
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                     color: Colors.white70,
                   ),

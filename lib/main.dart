@@ -30,11 +30,11 @@ void main() async {
   // Print API configuration for debugging
   ApiConfig.printConfig();
   
-  runApp(const MustStashApp());
+  runApp(const AdNabbitApp());
 }
 
-class MustStashApp extends StatelessWidget {
-  const MustStashApp({super.key});
+class AdNabbitApp extends StatelessWidget {
+  const AdNabbitApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +45,7 @@ class MustStashApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => RewardsProvider()),
       ],
       child: MaterialApp.router(
-        title: 'MustStash',
+        title: 'AdNabbit',
         theme: AppTheme.lightTheme,
         darkTheme: AppTheme.darkTheme,
         themeMode: ThemeMode.system,
