@@ -1,36 +1,31 @@
-# Save the current branch name
-$currentBranch = git rev-parse --abbrev-ref HEAD
+# PowerShell script to deploy Flutter web build to GitHub Pages
 
-# Build the Flutter web app
-Write-Host "Building Flutter web app..."
+Write-Host "Building Flutter web app..." -ForegroundColor Green
 flutter build web --release --base-href "/adnabbit/"
 
-# Switch to gh-pages branch
-Write-Host "Switching to gh-pages branch..."
-git checkout gh-pages
-
-# Remove all files except .git
-Write-Host "Cleaning gh-pages branch..."
-Get-ChildItem -Path . -Exclude .git | Remove-Item -Recurse -Force
-
-# Copy the web build files
-Write-Host "Copying web build files..."
-Copy-Item -Path build\web\* -Destination . -Recurse
-
-# Add all files to git
-Write-Host "Adding files to git..."
-git add .
-
-# Commit the changes
-Write-Host "Committing changes..."
-git commit -m "Update GitHub Pages site"
-
-# Push to GitHub
-Write-Host "Pushing to GitHub..."
-git push origin gh-pages
-
-# Switch back to the original branch
-Write-Host "Switching back to $currentBranch branch..."
-git checkout $currentBranch
-
-Write-Host "Deployment complete! Your site should be live at https://leed337.github.io/adnabbit/"
+if ($LASTEXITCODE -eq 0) {
+    Write-Host "Build successful! Deploying to GitHub Pages..." -ForegroundColor Green
+    
+    # Create or switch to gh-pages branch
+    git checkout -B gh-pages
+    
+    # Remove all files except build/web
+    Get-ChildItem -Path . -Exclude "build" | Remove-Item -Recurse -Force
+    
+    # Copy web build files to root
+    Copy-Item -Path "build/web/*" -Destination . -Recurse -Force
+    
+    # Add and commit
+    git add .
+    git commit -m "Deploy Flutter web app to GitHub Pages - $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')"
+    
+    # Push to gh-pages branch
+    git push origin gh-pages --force
+    
+    # Switch back to master
+    git checkout master
+    
+    Write-Host "Deployment complete! Check https://LEED337.github.io/adnabbit/" -ForegroundColor Green
+} else {
+    Write-Host "Build failed!" -ForegroundColor Red
+}
