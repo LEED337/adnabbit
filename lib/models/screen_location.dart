@@ -13,6 +13,9 @@ class ScreenLocation {
   final Map<String, dynamic> schedule; // Available time slots
   final int viewsPerDay;
   final String category; // 'retail', 'transport', 'outdoor', etc.
+  final int totalSlots; // Maximum ad slots (default 50)
+  final int usedSlots; // Currently occupied slots
+  final List<String> activeAdIds; // IDs of currently running ads
 
   ScreenLocation({
     required this.id,
@@ -29,7 +32,14 @@ class ScreenLocation {
     required this.schedule,
     required this.viewsPerDay,
     required this.category,
+    this.totalSlots = 50,
+    this.usedSlots = 0,
+    this.activeAdIds = const [],
   });
+
+  int get availableSlots => totalSlots - usedSlots;
+  bool get hasAvailableSlots => availableSlots > 0;
+  double get occupancyRate => totalSlots > 0 ? (usedSlots / totalSlots) * 100 : 0;
 
   factory ScreenLocation.fromJson(Map<String, dynamic> json) {
     return ScreenLocation(

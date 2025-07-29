@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'models/user.dart';
+import 'models/screen_location.dart';
+import 'services/optisigns_service.dart';
 
 void main() {
   runApp(const AdNabbitApp());
@@ -456,8 +459,163 @@ class DashboardHome extends StatelessWidget {
   }
 }
 
-class LocationsScreen extends StatelessWidget {
+class LocationsScreen extends StatefulWidget {
   const LocationsScreen({super.key});
+
+  @override
+  State<LocationsScreen> createState() => _LocationsScreenState();
+}
+
+class _LocationsScreenState extends State<LocationsScreen> {
+  final OptiSignsService _optiSignsService = OptiSignsService();
+  List<ScreenLocation> _screens = [];
+  bool _isLoading = true;
+  String? _selectedCategory;
+  final User _currentUser = User(
+    id: 'user_001',
+    email: 'user@adnabbit.com',
+    name: 'Advertiser User',
+    company: 'Demo Company',
+    role: UserRole.advertiser,
+    subscription: Subscription(
+      id: 'sub_001',
+      tier: SubscriptionTier.standard,
+      startDate: DateTime.now().subtract(const Duration(days: 15)),
+      endDate: DateTime.now().add(const Duration(days: 15)),
+      isActive: true,
+      screenLimit: 10,
+      monthlyPrice: 150.0,
+    ),
+  );
+
+  @override
+  void initState() {
+    super.initState();
+    _loadScreens();
+  }
+
+  Future<void> _loadScreens() async {
+    setState(() => _isLoading = true);
+    try {
+      final screens = await _optiSignsService.getAvailableScreens(category: _selectedCategory);
+      setState(() {
+        _screens = screens;
+        _isLoading = false;
+      });
+    } catch (e) {
+      setState(() => _isLoading = false);
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error loading screens: $e')),
+        );
+      }
+    }
+  }
+
+  Future<void> _selectScreen(ScreenLocation screen) async {
+    try {
+      // Check if user can access this screen
+      final canAccess = await _optiSignsService.canUserAccessScreen(_currentUser, screen);
+      
+      if (!canAccess) {
+        if (!_currentUser.hasActiveSubscription) {
+          _showSubscriptionDialog();
+          return;
+        } else if (!screen.hasAvailableSlots) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('No available slots on this screen')),
+          );
+          return;
+        }
+      }
+
+      // Show confirmation dialog
+      final confirmed = await showDialog<bool>(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text('Reserve Slot on ${screen.name}'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('Price: \$${screen.pricePerHour.toStringAsFixed(0)}/hour'),
+              Text('Available slots: ${screen.availableSlots}/${screen.totalSlots}'),
+              Text('Views per day: ${screen.viewsPerDay.toString()}'),
+              const SizedBox(height: 16),
+              const Text('Reserve a slot on this screen for your ad campaign?'),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(false),
+              child: const Text('Cancel'),
+            ),
+            ElevatedButton(
+              onPressed: () => Navigator.of(context).pop(true),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFF1E3A8A),
+                foregroundColor: Colors.white,
+              ),
+              child: const Text('Reserve Slot'),
+            ),
+          ],
+        ),
+      );
+
+      if (confirmed == true) {
+        await _optiSignsService.reserveScreenSlot(_currentUser, screen.id);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Slot reserved on ${screen.name}!')),
+        );
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error: $e')),
+      );
+    }
+  }
+
+  void _showSubscriptionDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Subscription Required'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text('You need an active subscription to reserve screen slots.'),
+            const SizedBox(height: 16),
+            const Text('Available plans:'),
+            const SizedBox(height: 8),
+            Text('• Basic: \$100/month - 5 screens'),
+            Text('• Standard: \$150/month - 10 screens'),
+            Text('• Premium: \$300/month - 30 screens'),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text('Cancel'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+              // In a real app, navigate to subscription page
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Subscription page would open here')),
+              );
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: const Color(0xFF1E3A8A),
+              foregroundColor: Colors.white,
+            ),
+            child: const Text('Subscribe'),
+          ),
+        ],
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -468,25 +626,71 @@ class LocationsScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              'OptiSigns Screen Locations',
-              style: TextStyle(
-                fontSize: 28,
-                fontWeight: FontWeight.bold,
-                color: Color(0xFF1E3A8A),
-              ),
-            ),
-            const SizedBox(height: 8),
-            const Text(
-              'Browse and select digital screens for your advertising campaigns',
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.grey,
-              ),
+            Row(
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'OptiSigns Screen Locations',
+                        style: TextStyle(
+                          fontSize: 28,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFF1E3A8A),
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      const Text(
+                        'Browse and select digital screens for your advertising campaigns',
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.grey,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                // Subscription status
+                if (_currentUser.hasActiveSubscription)
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                    decoration: BoxDecoration(
+                      color: Colors.green,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Column(
+                      children: [
+                        const Text(
+                          'SUBSCRIBED',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Text(
+                          '${_currentUser.subscription!.tier.name} Plan',
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 10,
+                          ),
+                        ),
+                        Text(
+                          '${_currentUser.subscription!.screenLimit} screens',
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 10,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+              ],
             ),
             const SizedBox(height: 32),
             
-            // Search and Filters
+            // Filters
             Row(
               children: [
                 Expanded(
@@ -496,17 +700,36 @@ class LocationsScreen extends StatelessWidget {
                       prefixIcon: Icon(Icons.search),
                       border: OutlineInputBorder(),
                     ),
+                    onChanged: (value) {
+                      // In a real app, implement search functionality
+                    },
                   ),
                 ),
                 const SizedBox(width: 16),
                 DropdownButton<String>(
                   hint: const Text('Category'),
+                  value: _selectedCategory,
                   items: const [
+                    DropdownMenuItem(value: null, child: Text('All Categories')),
                     DropdownMenuItem(value: 'retail', child: Text('Retail')),
                     DropdownMenuItem(value: 'transport', child: Text('Transport')),
                     DropdownMenuItem(value: 'outdoor', child: Text('Outdoor')),
+                    DropdownMenuItem(value: 'business', child: Text('Business')),
                   ],
-                  onChanged: (value) {},
+                  onChanged: (value) {
+                    setState(() => _selectedCategory = value);
+                    _loadScreens();
+                  },
+                ),
+                const SizedBox(width: 16),
+                ElevatedButton.icon(
+                  onPressed: _loadScreens,
+                  icon: const Icon(Icons.refresh),
+                  label: const Text('Refresh'),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF1E3A8A),
+                    foregroundColor: Colors.white,
+                  ),
                 ),
               ],
             ),
@@ -514,105 +737,123 @@ class LocationsScreen extends StatelessWidget {
             
             // Screen Grid
             Expanded(
-              child: GridView.builder(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3,
-                  childAspectRatio: 1.2,
-                  crossAxisSpacing: 16,
-                  mainAxisSpacing: 16,
-                ),
-                itemCount: 6,
-                itemBuilder: (context, index) {
-                  final screens = [
-                    {'name': 'Downtown Mall - Main Entrance', 'price': 25.0, 'views': '5K'},
-                    {'name': 'Central Station - Platform A', 'price': 35.0, 'views': '8K'},
-                    {'name': 'Times Square Billboard', 'price': 150.0, 'views': '50K'},
-                    {'name': 'Airport Terminal 1', 'price': 45.0, 'views': '12K'},
-                    {'name': 'Shopping Center Food Court', 'price': 20.0, 'views': '3K'},
-                    {'name': 'Business District Plaza', 'price': 30.0, 'views': '7K'},
-                  ];
-                  
-                  final screen = screens[index];
-                  
-                  return Card(
-                    elevation: 4,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            screen['name'] as String,
-                            style: const TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                            ),
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
+              child: _isLoading
+                  ? const Center(child: CircularProgressIndicator())
+                  : _screens.isEmpty
+                      ? const Center(
+                          child: Text(
+                            'No screens available',
+                            style: TextStyle(fontSize: 16, color: Colors.grey),
                           ),
-                          const SizedBox(height: 8),
-                          Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                            decoration: BoxDecoration(
-                              color: Colors.green,
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: const Text(
-                              'ONLINE',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 10,
-                                fontWeight: FontWeight.bold,
+                        )
+                      : GridView.builder(
+                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 3,
+                            childAspectRatio: 1.1,
+                            crossAxisSpacing: 16,
+                            mainAxisSpacing: 16,
+                          ),
+                          itemCount: _screens.length,
+                          itemBuilder: (context, index) {
+                            final screen = _screens[index];
+                            final hasSlots = screen.hasAvailableSlots;
+                            
+                            return Card(
+                              elevation: 4,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
                               ),
-                            ),
-                          ),
-                          const SizedBox(height: 8),
-                          Text(
-                            '${screen['views']} views/day',
-                            style: const TextStyle(fontSize: 12, color: Colors.grey),
-                          ),
-                          const Spacer(),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                '\$${(screen['price'] as double).toStringAsFixed(0)}/hr',
-                                style: const TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                  color: Color(0xFF1E3A8A),
-                                ),
-                              ),
-                              ElevatedButton(
-                                onPressed: () {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text('Selected: ${screen['name']}'),
-                                      duration: const Duration(seconds: 2),
+                              child: Padding(
+                                padding: const EdgeInsets.all(16),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      screen.name,
+                                      style: const TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
                                     ),
-                                  );
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: const Color(0xFF1E3A8A),
-                                  foregroundColor: Colors.white,
-                                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                                ),
-                                child: const Text(
-                                  'Select',
-                                  style: TextStyle(fontSize: 12),
+                                    const SizedBox(height: 8),
+                                    Row(
+                                      children: [
+                                        Container(
+                                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                          decoration: BoxDecoration(
+                                            color: screen.status == 'online' ? Colors.green : Colors.red,
+                                            borderRadius: BorderRadius.circular(12),
+                                          ),
+                                          child: Text(
+                                            screen.status.toUpperCase(),
+                                            style: const TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 10,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ),
+                                        const SizedBox(width: 8),
+                                        Container(
+                                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                          decoration: BoxDecoration(
+                                            color: hasSlots ? Colors.blue : Colors.orange,
+                                            borderRadius: BorderRadius.circular(12),
+                                          ),
+                                          child: Text(
+                                            '${screen.availableSlots}/${screen.totalSlots}',
+                                            style: const TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 10,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(height: 8),
+                                    Text(
+                                      '${screen.viewsPerDay} views/day',
+                                      style: const TextStyle(fontSize: 12, color: Colors.grey),
+                                    ),
+                                    Text(
+                                      screen.category.toUpperCase(),
+                                      style: const TextStyle(fontSize: 10, color: Colors.grey),
+                                    ),
+                                    const Spacer(),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          '\$${screen.pricePerHour.toStringAsFixed(0)}/hr',
+                                          style: const TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold,
+                                            color: Color(0xFF1E3A8A),
+                                          ),
+                                        ),
+                                        ElevatedButton(
+                                          onPressed: hasSlots ? () => _selectScreen(screen) : null,
+                                          style: ElevatedButton.styleFrom(
+                                            backgroundColor: hasSlots ? const Color(0xFF1E3A8A) : Colors.grey,
+                                            foregroundColor: Colors.white,
+                                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                                          ),
+                                          child: Text(
+                                            hasSlots ? 'Select' : 'Full',
+                                            style: const TextStyle(fontSize: 12),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
                                 ),
                               ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                },
-              ),
+                            );
+                          },
+                        ),
             ),
           ],
         ),
