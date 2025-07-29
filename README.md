@@ -23,9 +23,22 @@
 ### Core Functionality
 - **Enhanced Login System** - Role-based authentication (Admin/Advertiser)
 - **Professional Dashboard** - Clean, intuitive interface for managing campaigns
-- **OptiSigns Integration** - Browse and select digital screens for advertising
+- **Real OptiSigns Integration** - Browse and select digital screens with live availability
+- **Subscription System** - Tiered pricing plans for screen access
+- **Slot Management** - Real-time tracking of available ad slots (X/50 per screen)
 - **Campaign Management** - Create, deploy, and monitor advertising campaigns
 - **Admin Control Panel** - Complete system management for administrators
+
+### OptiSigns Features
+- **Live Screen Locations** - Real digital screen inventory with availability
+- **Slot Availability** - Each screen shows available slots (e.g., 18/50 available)
+- **Subscription Tiers**:
+  - **Basic**: $100/month - 5 screens
+  - **Standard**: $150/month - 10 screens  
+  - **Premium**: $300/month - 30 screens
+- **Category Filtering** - Filter by Retail, Transport, Outdoor, Business
+- **Real-time Reservations** - Reserve screen slots with instant confirmation
+- **Screen Status** - Live online/offline status indicators
 
 ### Technical Features
 - **Responsive Design** - Works seamlessly on desktop, tablet, and mobile
