@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AdNabbit - Create Account</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #1E3A8A;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .register-container {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 450px;
+            text-align: center;
+        }
+        .logo {
+            width: 80px;
+            height: 80px;
+            background: #1E3A8A;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 2rem;
+            color: white;
+        }
+        h1 {
+            color: #1E3A8A;
+            margin-bottom: 0.5rem;
+            font-size: 1.8rem;
+        }
+        .subtitle {
+            color: #6b7280;
+            margin-bottom: 2rem;
+            font-size: 0.95rem;
+        }
+        .form-group {
+            margin-bottom: 1.2rem;
+            text-align: left;
+        }
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #374151;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+        input, select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 1rem;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+        }
+        input:focus, select:focus {
+            outline: none;
+            border-color: #1E3A8A;
+            box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.1);
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        .btn {
+            width: 100%;
+            padding: 0.75rem;
+            background: #1E3A8A;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 1rem;
+            transition: background 0.3s;
+        }
+        .btn:hover {
+            background: #1e40af;
+        }
+        .plan-selection {
+            margin: 1.5rem 0;
+            padding: 1.5rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+            text-align: left;
+        }
+        .plan-selection h3 {
+            color: #1E3A8A;
+            margin: 0 0 1rem 0;
+            font-size: 1.1rem;
+        }
+        .plan-option {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.75rem;
+            padding: 0.75rem;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .plan-option:hover {
+            background: #f3f4f6;
+        }
+        .plan-option.selected {
+            border-color: #1E3A8A;
+            background: #eff6ff;
+        }
+        .plan-option input[type="radio"] {
+            margin-right: 0.75rem;
+            width: auto;
+        }
+        .plan-details {
+            flex: 1;
+        }
+        .plan-name {
+            font-weight: 600;
+            color: #1E3A8A;
+            margin-bottom: 0.25rem;
+        }
+        .plan-price {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #1E3A8A;
+            margin-right: 0.5rem;
+        }
+        .plan-screens {
+            font-size: 0.85rem;
+            color: #6b7280;
+        }
+        .login-link {
+            margin-top: 1.5rem;
+            text-align: center;
+        }
+        .login-link a {
+            color: #1E3A8A;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+        .success-message {
+            display: none;
+            background: #dcfce7;
+            color: #166534;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        @media (max-width: 480px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            .register-container {
+                margin: 1rem;
+                padding: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="register-container">
+        <div class="logo">📺</div>
+        <h1>Create Your AdNabbit Account</h1>
+        <p class="subtitle">Start advertising on digital screens across the city</p>
+        
+        <div id="successMessage" class="success-message">
+            <strong>Account Created Successfully!</strong><br>
+            You can now login with your credentials.
+        </div>
+
+        <form id="registerForm" onsubmit="return handleRegister(event);">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="firstName">First Name</label>
+                    <input type="text" id="firstName" required placeholder="John">
+                </div>
+                <div class="form-group">
+                    <label for="lastName">Last Name</label>
+                    <input type="text" id="lastName" required placeholder="Smith">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" required placeholder="john@company.com">
+            </div>
+
+            <div class="form-group">
+                <label for="company">Company Name</label>
+                <input type="text" id="company" required placeholder="Your Company Inc.">
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" required placeholder="Create password">
+                </div>
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <input type="password" id="confirmPassword" required placeholder="Confirm password">
+                </div>
+            </div>
+
+            <div class="plan-selection">
+                <h3>Choose Your Plan</h3>
+                
+                <div class="plan-option" onclick="selectPlan('basic')">
+                    <input type="radio" name="plan" value="basic" id="planBasic" required>
+                    <div class="plan-details">
+                        <div class="plan-name">Basic Plan</div>
+                        <div>
+                            <span class="plan-price">$150/month</span>
+                            <span class="plan-screens">Up to 10 screens</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="plan-option" onclick="selectPlan('standard')">
+                    <input type="radio" name="plan" value="standard" id="planStandard">
+                    <div class="plan-details">
+                        <div class="plan-name">Standard Plan</div>
+                        <div>
+                            <span class="plan-price">$200/month</span>
+                            <span class="plan-screens">Up to 15 screens</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="plan-option" onclick="selectPlan('premium')">
+                    <input type="radio" name="plan" value="premium" id="planPremium">
+                    <div class="plan-details">
+                        <div class="plan-name">Premium Plan</div>
+                        <div>
+                            <span class="plan-price">$300/month</span>
+                            <span class="plan-screens">Up to 30 screens</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="btn">Create Account & Start Campaign</button>
+        </form>
+
+        <div class="login-link">
+            Already have an account? <a href="flutter_app.html">Login here</a>
+        </div>
+
+        <div class="login-link">
+            <a href="index.html">← Back to Home</a>
+        </div>
+    </div>
+
+    <script>
+        function selectPlan(planType) {
+            // Remove selected class from all plans
+            document.querySelectorAll('.plan-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            // Add selected class to clicked plan
+            event.currentTarget.classList.add('selected');
+            
+            // Check the radio button
+            document.getElementById('plan' + planType.charAt(0).toUpperCase() + planType.slice(1)).checked = true;
+        }
+
+        function handleRegister(event) {
+            event.preventDefault();
+            
+            const firstName = document.getElementById('firstName').value;
+            const lastName = document.getElementById('lastName').value;
+            const email = document.getElementById('email').value;
+            const company = document.getElementById('company').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const plan = document.querySelector('input[name="plan"]:checked')?.value;
+
+            // Basic validation
+            if (password !== confirmPassword) {
+                alert('Passwords do not match. Please try again.');
+                return false;
+            }
+
+            if (password.length < 6) {
+                alert('Password must be at least 6 characters long.');
+                return false;
+            }
+
+            if (!plan) {
+                alert('Please select a subscription plan.');
+                return false;
+            }
+
+            // Simulate account creation
+            console.log('Creating account:', {
+                firstName,
+                lastName,
+                email,
+                company,
+                plan
+            });
+
+            // Show success message
+            document.getElementById('registerForm').style.display = 'none';
+            document.getElementById('successMessage').style.display = 'block';
+
+            // Redirect to login after 3 seconds
+            setTimeout(() => {
+                window.location.href = 'flutter_app.html';
+            }, 3000);
+
+            return false;
+        }
+
+        // Auto-select Basic plan by default
+        document.addEventListener('DOMContentLoaded', function() {
+            selectPlan('basic');
+        });
+    </script>
+</body>
+</html>
