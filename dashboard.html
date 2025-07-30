@@ -277,6 +277,98 @@
             cursor: pointer;
             color: #6b7280;
         }
+        /* Map View Styles */
+        .screen-marker {
+            position: absolute;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+        .screen-marker:hover {
+            transform: scale(1.1);
+            z-index: 20;
+        }
+        .screen-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            border: 3px solid;
+            background: white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        .screen-marker.available .screen-icon {
+            border-color: #10b981;
+            color: #10b981;
+        }
+        .screen-marker.selected .screen-icon {
+            border-color: #3b82f6;
+            color: #3b82f6;
+            background: #eff6ff;
+        }
+        .screen-marker.limited .screen-icon {
+            border-color: #f59e0b;
+            color: #f59e0b;
+        }
+        .screen-marker.full .screen-icon {
+            border-color: #ef4444;
+            color: #ef4444;
+        }
+        .screen-info {
+            position: absolute;
+            top: 45px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            padding: 0.5rem;
+            border-radius: 6px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            min-width: 120px;
+            text-align: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            border: 1px solid #e5e7eb;
+        }
+        .screen-marker:hover .screen-info {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .screen-name {
+            font-weight: 600;
+            color: #1E3A8A;
+            font-size: 0.9rem;
+            margin-bottom: 0.25rem;
+        }
+        .screen-capacity {
+            font-size: 0.8rem;
+            color: #6b7280;
+            margin-bottom: 0.25rem;
+        }
+        .screen-price {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #059669;
+        }
+        .selected-location-item {
+            background: #f9fafb;
+            padding: 1rem;
+            border-radius: 6px;
+            border-left: 4px solid #3b82f6;
+        }
+        .selected-location-item h4 {
+            color: #1E3A8A;
+            margin: 0 0 0.5rem 0;
+            font-size: 1rem;
+        }
+        .selected-location-item p {
+            color: #6b7280;
+            margin: 0;
+            font-size: 0.9rem;
+        }
         @media (max-width: 768px) {
             .tabs {
                 flex-direction: column;
@@ -287,6 +379,15 @@
             }
             .stats-grid {
                 grid-template-columns: 1fr;
+            }
+            #screenMap {
+                height: 400px;
+            }
+            .screen-marker {
+                transform: scale(0.8);
+            }
+            .screen-marker:hover {
+                transform: scale(0.9);
             }
         }
     </style>
@@ -378,95 +479,238 @@
             <div style="margin-bottom: 2rem;">
                 <h2 style="color: #1E3A8A; margin-bottom: 1rem;">Choose Your Screen Locations</h2>
                 <p style="color: #6b7280;">Select premium locations where you want your ads displayed. We handle all the technical setup.</p>
-            </div>
-            
-            <div class="locations-grid">
-                <div class="location-card">
-                    <div class="location-image">🏢</div>
-                    <div class="location-info">
-                        <h3>Downtown Mall</h3>
-                        <p style="color: #6b7280; margin-bottom: 0.5rem;">Main entrance • 15,000 daily visitors</p>
-                        <p style="color: #6b7280; margin-bottom: 0.5rem;"><strong>$45/month per screen</strong></p>
-                        <span class="location-status status-active">✅ Selected</span>
-                        <div style="margin-top: 1rem;">
-                            <button class="btn btn-secondary" onclick="toggleLocation('downtown-mall')">Remove</button>
-                        </div>
-                    </div>
-                </div>
                 
-                <div class="location-card">
-                    <div class="location-image">🚇</div>
-                    <div class="location-info">
-                        <h3>Metro Station</h3>
-                        <p style="color: #6b7280; margin-bottom: 0.5rem;">Platform 2 • 8,000 morning commuters</p>
-                        <p style="color: #6b7280; margin-bottom: 0.5rem;"><strong>$35/month per screen</strong></p>
-                        <span class="location-status status-available">Available</span>
-                        <div style="margin-top: 1rem;">
-                            <button class="btn" onclick="toggleLocation('metro-station')">Add Location</button>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="location-card">
-                    <div class="location-image">🏪</div>
-                    <div class="location-info">
-                        <h3>Coffee Shop Chain</h3>
-                        <p style="color: #6b7280; margin-bottom: 0.5rem;">5 locations • Business professionals</p>
-                        <p style="color: #6b7280; margin-bottom: 0.5rem;"><strong>$25/month per location</strong></p>
-                        <span class="location-status status-active">✅ Selected (3 locations)</span>
-                        <div style="margin-top: 1rem;">
-                            <button class="btn btn-secondary" onclick="toggleLocation('coffee-shops')">Modify</button>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="location-card">
-                    <div class="location-image">🏥</div>
-                    <div class="location-info">
-                        <h3>Medical Center</h3>
-                        <p style="color: #6b7280; margin-bottom: 0.5rem;">Waiting areas • Extended viewing time</p>
-                        <p style="color: #6b7280; margin-bottom: 0.5rem;"><strong>$30/month per screen</strong></p>
-                        <span class="location-status status-available">Available</span>
-                        <div style="margin-top: 1rem;">
-                            <button class="btn" onclick="toggleLocation('medical-center')">Add Location</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="location-card">
-                    <div class="location-image">🏫</div>
-                    <div class="location-info">
-                        <h3>University Campus</h3>
-                        <p style="color: #6b7280; margin-bottom: 0.5rem;">Student center • Young demographic</p>
-                        <p style="color: #6b7280; margin-bottom: 0.5rem;"><strong>$20/month per screen</strong></p>
-                        <span class="location-status status-active">✅ Selected (2 screens)</span>
-                        <div style="margin-top: 1rem;">
-                            <button class="btn btn-secondary" onclick="toggleLocation('university')">Remove</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="location-card">
-                    <div class="location-image">🏬</div>
-                    <div class="location-info">
-                        <h3>Shopping Center</h3>
-                        <p style="color: #6b7280; margin-bottom: 0.5rem;">Food court • Family shoppers</p>
-                        <p style="color: #6b7280; margin-bottom: 0.5rem;"><strong>$40/month per screen</strong></p>
-                        <span class="location-status status-active">✅ Selected (3 screens)</span>
-                        <div style="margin-top: 1rem;">
-                            <button class="btn btn-secondary" onclick="toggleLocation('shopping-center')">Remove</button>
-                        </div>
-                    </div>
+                <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                    <button class="btn" id="mapViewBtn" onclick="showMapView()">🗺️ Map View</button>
+                    <button class="btn btn-secondary" id="listViewBtn" onclick="showListView()">📋 List View</button>
                 </div>
             </div>
 
-            <div class="campaign-card" style="margin-top: 2rem;">
-                <div class="campaign-header">
-                    <div class="campaign-title">Current Selection Summary</div>
+            <!-- Map View -->
+            <div id="mapView" style="display: none;">
+                <div style="background: white; border-radius: 8px; padding: 1rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-bottom: 2rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                        <h3 style="color: #1E3A8A; margin: 0;">Screen Network Map</h3>
+                        <div style="display: flex; gap: 1rem; font-size: 0.9rem;">
+                            <span>🟢 Available</span>
+                            <span>🔵 Selected</span>
+                            <span>🟡 Limited</span>
+                            <span>🔴 Full</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Interactive Map Container -->
+                    <div id="screenMap" style="position: relative; background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%); border-radius: 8px; height: 500px; overflow: hidden; border: 2px solid #e5e7eb;">
+                        <!-- Map Background -->
+                        <div style="position: absolute; top: 20px; left: 20px; color: #6b7280; font-size: 0.8rem;">Downtown Area</div>
+                        <div style="position: absolute; bottom: 20px; right: 20px; color: #6b7280; font-size: 0.8rem;">Scale: 1km</div>
+                        
+                        <!-- Screen Locations -->
+                        <div class="screen-marker selected" data-location="downtown-mall" style="position: absolute; top: 120px; left: 200px;">
+                            <div class="screen-icon">📺</div>
+                            <div class="screen-info">
+                                <div class="screen-name">Downtown Mall</div>
+                                <div class="screen-capacity">18/30</div>
+                                <div class="screen-price">$45/mo</div>
+                            </div>
+                        </div>
+                        
+                        <div class="screen-marker available" data-location="metro-station" style="position: absolute; top: 80px; left: 350px;">
+                            <div class="screen-icon">📺</div>
+                            <div class="screen-info">
+                                <div class="screen-name">Metro Station</div>
+                                <div class="screen-capacity">12/30</div>
+                                <div class="screen-price">$35/mo</div>
+                            </div>
+                        </div>
+                        
+                        <div class="screen-marker selected" data-location="coffee-shops" style="position: absolute; top: 200px; left: 150px;">
+                            <div class="screen-icon">📺</div>
+                            <div class="screen-info">
+                                <div class="screen-name">Coffee Shops</div>
+                                <div class="screen-capacity">22/30</div>
+                                <div class="screen-price">$25/mo</div>
+                            </div>
+                        </div>
+                        
+                        <div class="screen-marker available" data-location="medical-center" style="position: absolute; top: 300px; left: 400px;">
+                            <div class="screen-icon">📺</div>
+                            <div class="screen-info">
+                                <div class="screen-name">Medical Center</div>
+                                <div class="screen-capacity">8/30</div>
+                                <div class="screen-price">$30/mo</div>
+                            </div>
+                        </div>
+                        
+                        <div class="screen-marker selected" data-location="university" style="position: absolute; top: 350px; left: 100px;">
+                            <div class="screen-icon">📺</div>
+                            <div class="screen-info">
+                                <div class="screen-name">University</div>
+                                <div class="screen-capacity">15/30</div>
+                                <div class="screen-price">$20/mo</div>
+                            </div>
+                        </div>
+                        
+                        <div class="screen-marker selected" data-location="shopping-center" style="position: absolute; top: 180px; left: 450px;">
+                            <div class="screen-icon">📺</div>
+                            <div class="screen-info">
+                                <div class="screen-name">Shopping Center</div>
+                                <div class="screen-capacity">25/30</div>
+                                <div class="screen-price">$40/mo</div>
+                            </div>
+                        </div>
+                        
+                        <div class="screen-marker limited" data-location="airport" style="position: absolute; top: 60px; left: 500px;">
+                            <div class="screen-icon">📺</div>
+                            <div class="screen-info">
+                                <div class="screen-name">Airport</div>
+                                <div class="screen-capacity">28/30</div>
+                                <div class="screen-price">$60/mo</div>
+                            </div>
+                        </div>
+                        
+                        <div class="screen-marker full" data-location="stadium" style="position: absolute; top: 400px; left: 300px;">
+                            <div class="screen-icon">📺</div>
+                            <div class="screen-info">
+                                <div class="screen-name">Stadium</div>
+                                <div class="screen-capacity">30/30</div>
+                                <div class="screen-price">$80/mo</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <p style="color: #6b7280; margin-bottom: 1rem;">You have selected 8 screen locations across 4 venues.</p>
-                <p style="color: #1E3A8A; font-weight: 600; margin-bottom: 1rem;">Monthly cost: $285 (included in your Standard plan)</p>
-                <button class="btn" onclick="saveLocationSelection()">💾 Save Changes</button>
+                
+                <!-- Selected Locations Summary -->
+                <div class="campaign-card">
+                    <div class="campaign-header">
+                        <div class="campaign-title">Your Selected Locations</div>
+                    </div>
+                    <div id="selectedLocationsList" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
+                        <!-- Will be populated by JavaScript -->
+                    </div>
+                    <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e5e7eb;">
+                        <p style="color: #1E3A8A; font-weight: 600; margin-bottom: 1rem;">Total: 8 screens • Monthly cost: $285</p>
+                        <button class="btn" onclick="saveLocationSelection()">💾 Save Changes</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- List View (existing) -->
+            <div id="listView">
+                <div class="locations-grid">
+                    <div class="location-card">
+                        <div class="location-image">🏢</div>
+                        <div class="location-info">
+                            <h3>Downtown Mall</h3>
+                            <p style="color: #6b7280; margin-bottom: 0.5rem;">Main entrance • 15,000 daily visitors</p>
+                            <p style="color: #6b7280; margin-bottom: 0.5rem;"><strong>$45/month per screen</strong> • Capacity: 18/30</p>
+                            <span class="location-status status-active">✅ Selected</span>
+                            <div style="margin-top: 1rem;">
+                                <button class="btn btn-secondary" onclick="toggleLocation('downtown-mall')">Remove</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="location-card">
+                        <div class="location-image">🚇</div>
+                        <div class="location-info">
+                            <h3>Metro Station</h3>
+                            <p style="color: #6b7280; margin-bottom: 0.5rem;">Platform 2 • 8,000 morning commuters</p>
+                            <p style="color: #6b7280; margin-bottom: 0.5rem;"><strong>$35/month per screen</strong> • Capacity: 12/30</p>
+                            <span class="location-status status-available">Available</span>
+                            <div style="margin-top: 1rem;">
+                                <button class="btn" onclick="toggleLocation('metro-station')">Add Location</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="location-card">
+                        <div class="location-image">🏪</div>
+                        <div class="location-info">
+                            <h3>Coffee Shop Chain</h3>
+                            <p style="color: #6b7280; margin-bottom: 0.5rem;">5 locations • Business professionals</p>
+                            <p style="color: #6b7280; margin-bottom: 0.5rem;"><strong>$25/month per location</strong> • Capacity: 22/30</p>
+                            <span class="location-status status-active">✅ Selected</span>
+                            <div style="margin-top: 1rem;">
+                                <button class="btn btn-secondary" onclick="toggleLocation('coffee-shops')">Remove</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="location-card">
+                        <div class="location-image">🏥</div>
+                        <div class="location-info">
+                            <h3>Medical Center</h3>
+                            <p style="color: #6b7280; margin-bottom: 0.5rem;">Waiting areas • Extended viewing time</p>
+                            <p style="color: #6b7280; margin-bottom: 0.5rem;"><strong>$30/month per screen</strong> • Capacity: 8/30</p>
+                            <span class="location-status status-available">Available</span>
+                            <div style="margin-top: 1rem;">
+                                <button class="btn" onclick="toggleLocation('medical-center')">Add Location</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="location-card">
+                        <div class="location-image">🏫</div>
+                        <div class="location-info">
+                            <h3>University Campus</h3>
+                            <p style="color: #6b7280; margin-bottom: 0.5rem;">Student center • Young demographic</p>
+                            <p style="color: #6b7280; margin-bottom: 0.5rem;"><strong>$20/month per screen</strong> • Capacity: 15/30</p>
+                            <span class="location-status status-active">✅ Selected</span>
+                            <div style="margin-top: 1rem;">
+                                <button class="btn btn-secondary" onclick="toggleLocation('university')">Remove</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="location-card">
+                        <div class="location-image">🏬</div>
+                        <div class="location-info">
+                            <h3>Shopping Center</h3>
+                            <p style="color: #6b7280; margin-bottom: 0.5rem;">Food court • Family shoppers</p>
+                            <p style="color: #6b7280; margin-bottom: 0.5rem;"><strong>$40/month per screen</strong> • Capacity: 25/30</p>
+                            <span class="location-status status-active">✅ Selected</span>
+                            <div style="margin-top: 1rem;">
+                                <button class="btn btn-secondary" onclick="toggleLocation('shopping-center')">Remove</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="location-card">
+                        <div class="location-image">✈️</div>
+                        <div class="location-info">
+                            <h3>Airport</h3>
+                            <p style="color: #6b7280; margin-bottom: 0.5rem;">Departure gates • International travelers</p>
+                            <p style="color: #6b7280; margin-bottom: 0.5rem;"><strong>$60/month per screen</strong> • Capacity: 28/30</p>
+                            <span class="location-status status-busy">Limited</span>
+                            <div style="margin-top: 1rem;">
+                                <button class="btn" onclick="toggleLocation('airport')">Add Location</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="location-card">
+                        <div class="location-image">🏟️</div>
+                        <div class="location-info">
+                            <h3>Stadium</h3>
+                            <p style="color: #6b7280; margin-bottom: 0.5rem;">Event venue • Sports fans</p>
+                            <p style="color: #6b7280; margin-bottom: 0.5rem;"><strong>$80/month per screen</strong> • Capacity: 30/30</p>
+                            <span class="location-status status-busy">Full - Waitlist</span>
+                            <div style="margin-top: 1rem;">
+                                <button class="btn btn-secondary" onclick="toggleLocation('stadium')">Join Waitlist</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="campaign-card" style="margin-top: 2rem;">
+                    <div class="campaign-header">
+                        <div class="campaign-title">Current Selection Summary</div>
+                    </div>
+                    <p style="color: #6b7280; margin-bottom: 1rem;">You have selected 4 screen locations.</p>
+                    <p style="color: #1E3A8A; font-weight: 600; margin-bottom: 1rem;">Monthly cost: $130 (included in your Standard plan)</p>
+                    <button class="btn" onclick="saveLocationSelection()">💾 Save Changes</button>
+                </div>
             </div>
         </div>
 
@@ -832,6 +1076,146 @@
             }
         }
 
+        // Map and location management
+        const locationData = {
+            'downtown-mall': { 
+                name: 'Downtown Mall', 
+                cost: 45, 
+                selected: true, 
+                capacity: { used: 18, total: 30 },
+                description: 'Main entrance • 15,000 daily visitors'
+            },
+            'metro-station': { 
+                name: 'Metro Station', 
+                cost: 35, 
+                selected: false, 
+                capacity: { used: 12, total: 30 },
+                description: 'Platform 2 • 8,000 morning commuters'
+            },
+            'coffee-shops': { 
+                name: 'Coffee Shop Chain', 
+                cost: 25, 
+                selected: true, 
+                capacity: { used: 22, total: 30 },
+                description: '5 locations • Business professionals'
+            },
+            'medical-center': { 
+                name: 'Medical Center', 
+                cost: 30, 
+                selected: false, 
+                capacity: { used: 8, total: 30 },
+                description: 'Waiting areas • Extended viewing time'
+            },
+            'university': { 
+                name: 'University Campus', 
+                cost: 20, 
+                selected: true, 
+                capacity: { used: 15, total: 30 },
+                description: 'Student center • Young demographic'
+            },
+            'shopping-center': { 
+                name: 'Shopping Center', 
+                cost: 40, 
+                selected: true, 
+                capacity: { used: 25, total: 30 },
+                description: 'Food court • Family shoppers'
+            },
+            'airport': { 
+                name: 'Airport', 
+                cost: 60, 
+                selected: false, 
+                capacity: { used: 28, total: 30 },
+                description: 'Departure gates • International travelers'
+            },
+            'stadium': { 
+                name: 'Stadium', 
+                cost: 80, 
+                selected: false, 
+                capacity: { used: 30, total: 30 },
+                description: 'Event venue • Sports fans (waitlist only)'
+            }
+        };
+
+        function showMapView() {
+            document.getElementById('mapView').style.display = 'block';
+            document.getElementById('listView').style.display = 'none';
+            document.getElementById('mapViewBtn').className = 'btn';
+            document.getElementById('listViewBtn').className = 'btn btn-secondary';
+            updateSelectedLocationsList();
+            initializeMapInteractions();
+        }
+
+        function showListView() {
+            document.getElementById('mapView').style.display = 'none';
+            document.getElementById('listView').style.display = 'block';
+            document.getElementById('mapViewBtn').className = 'btn btn-secondary';
+            document.getElementById('listViewBtn').className = 'btn';
+        }
+
+        function initializeMapInteractions() {
+            const markers = document.querySelectorAll('.screen-marker');
+            markers.forEach(marker => {
+                marker.addEventListener('click', function() {
+                    const locationId = this.getAttribute('data-location');
+                    const location = locationData[locationId];
+                    
+                    if (location) {
+                        showLocationDetails(locationId, location);
+                    }
+                });
+            });
+        }
+
+        function showLocationDetails(locationId, location) {
+            const isSelected = location.selected;
+            const capacityStatus = getCapacityStatus(location.capacity);
+            const canSelect = !isSelected && location.capacity.used < location.capacity.total;
+            
+            const message = `📍 ${location.name}\n\n` +
+                `${location.description}\n` +
+                `💰 Cost: $${location.cost}/month\n` +
+                `📊 Capacity: ${location.capacity.used}/${location.capacity.total} ads\n` +
+                `🎯 Status: ${capacityStatus}\n\n` +
+                `${isSelected ? 'Currently selected for your ads.' : canSelect ? 'Available for selection.' : 'No slots available.'}`;
+            
+            if (confirm(message + '\n\nWould you like to ' + (isSelected ? 'remove this location?' : canSelect ? 'add this location?' : 'join the waitlist?'))) {
+                if (isSelected) {
+                    toggleLocation(locationId);
+                } else if (canSelect) {
+                    toggleLocation(locationId);
+                } else {
+                    alert('✅ Added to waitlist! We\'ll notify you when a slot becomes available.');
+                }
+            }
+        }
+
+        function getCapacityStatus(capacity) {
+            const percentage = (capacity.used / capacity.total) * 100;
+            if (percentage >= 100) return 'Full';
+            if (percentage >= 90) return 'Limited availability';
+            if (percentage >= 70) return 'Filling up';
+            return 'Available';
+        }
+
+        function updateSelectedLocationsList() {
+            const container = document.getElementById('selectedLocationsList');
+            const selectedLocations = Object.entries(locationData).filter(([id, data]) => data.selected);
+            
+            container.innerHTML = selectedLocations.map(([id, data]) => `
+                <div class="selected-location-item">
+                    <h4>${data.name}</h4>
+                    <p>${data.description}</p>
+                    <p><strong>$${data.cost}/month</strong> • Capacity: ${data.capacity.used}/${data.capacity.total}</p>
+                </div>
+            `).join('');
+        }
+
+        // Initialize map view on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Show list view by default, but prepare map view
+            showListView();
+        });
+
         // Subscriber functions
         function viewAnalytics() {
             alert('📊 Analytics Dashboard\n\nYour ads this month:\n• Total views: 12,400\n• Click-through rate: 2.8%\n• Top performing location: Downtown Mall\n• Best performing ad: Summer Sale Banner');
@@ -866,25 +1250,45 @@
         }
 
         function toggleLocation(locationId) {
-            const locationData = {
-                'downtown-mall': { name: 'Downtown Mall', cost: 45, selected: true },
-                'metro-station': { name: 'Metro Station', cost: 35, selected: false },
-                'coffee-shops': { name: 'Coffee Shop Chain', cost: 25, selected: true },
-                'medical-center': { name: 'Medical Center', cost: 30, selected: false },
-                'university': { name: 'University Campus', cost: 20, selected: true },
-                'shopping-center': { name: 'Shopping Center', cost: 40, selected: true }
-            };
-            
             const location = locationData[locationId];
-            if (location) {
-                const action = location.selected ? 'remove' : 'add';
-                const message = location.selected 
-                    ? `Remove ${location.name} from your selected locations?\n\nThis will save $${location.cost}/month.`
-                    : `Add ${location.name} to your selected locations?\n\nThis will cost $${location.cost}/month.`;
+            if (!location) return;
+            
+            const wasSelected = location.selected;
+            const action = wasSelected ? 'remove' : 'add';
+            const message = wasSelected 
+                ? `Remove ${location.name} from your selected locations?\n\nThis will save $${location.cost}/month.`
+                : `Add ${location.name} to your selected locations?\n\nThis will cost $${location.cost}/month.`;
+            
+            if (confirm(message)) {
+                // Toggle selection
+                location.selected = !location.selected;
                 
-                if (confirm(message)) {
-                    alert(`✅ Location ${action === 'add' ? 'added' : 'removed'} successfully. Changes will take effect on your next billing cycle.`);
+                // Update map marker appearance
+                const marker = document.querySelector(`[data-location="${locationId}"]`);
+                if (marker) {
+                    marker.className = marker.className.replace(/\b(available|selected)\b/g, '');
+                    marker.classList.add(location.selected ? 'selected' : 'available');
                 }
+                
+                // Update selected locations list if map view is active
+                if (document.getElementById('mapView').style.display !== 'none') {
+                    updateSelectedLocationsList();
+                    updateTotalCost();
+                }
+                
+                alert(`✅ Location ${action === 'add' ? 'added' : 'removed'} successfully. Changes will take effect on your next billing cycle.`);
+            }
+        }
+
+        function updateTotalCost() {
+            const selectedLocations = Object.values(locationData).filter(loc => loc.selected);
+            const totalCost = selectedLocations.reduce((sum, loc) => sum + loc.cost, 0);
+            const totalScreens = selectedLocations.length;
+            
+            // Update the summary in map view
+            const summaryElement = document.querySelector('#mapView .campaign-card p');
+            if (summaryElement) {
+                summaryElement.innerHTML = `Total: ${totalScreens} screens • Monthly cost: $${totalCost}`;
             }
         }
 
