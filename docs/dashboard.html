@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AdNabbit Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f8f9fa;
+            color: #333;
+        }
+        .header {
+            background: #1E3A8A;
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .logo-icon {
+            margin-right: 10px;
+            font-size: 1.8rem;
+        }
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .logout-btn {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.3);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+        .logout-btn:hover {
+            background: rgba(255,255,255,0.2);
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 20px;
+        }
+        .tabs {
+            display: flex;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            overflow: hidden;
+        }
+        .tab {
+            flex: 1;
+            padding: 1rem;
+            text-align: center;
+            background: white;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            color: #6b7280;
+            transition: all 0.3s;
+        }
+        .tab.active {
+            background: #1E3A8A;
+            color: white;
+        }
+        .tab:hover:not(.active) {
+            background: #f3f4f6;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .stat-card h3 {
+            color: #1E3A8A;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        .stat-card p {
+            color: #6b7280;
+            font-size: 0.9rem;
+        }
+        .locations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        .location-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+        .location-card:hover {
+            transform: translateY(-2px);
+        }
+        .location-image {
+            height: 150px;
+            background: linear-gradient(45deg, #1E3A8A, #3B82F6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2rem;
+        }
+        .location-info {
+            padding: 1rem;
+        }
+        .location-info h3 {
+            color: #1E3A8A;
+            margin-bottom: 0.5rem;
+        }
+        .location-status {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        .status-available {
+            background: #dcfce7;
+            color: #166534;
+        }
+        .status-busy {
+            background: #fef3c7;
+            color: #92400e;
+        }
+        .campaign-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 1rem;
+        }
+        .campaign-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        .campaign-title {
+            color: #1E3A8A;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+        .campaign-status {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        .status-active {
+            background: #dcfce7;
+            color: #166534;
+        }
+        .status-paused {
+            background: #fef3c7;
+            color: #92400e;
+        }
+        .btn {
+            background: #1E3A8A;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.3s;
+        }
+        .btn:hover {
+            background: #1e40af;
+        }
+        .btn-secondary {
+            background: #6b7280;
+        }
+        .btn-secondary:hover {
+            background: #4b5563;
+        }
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        .pricing-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            text-align: center;
+            position: relative;
+        }
+        .pricing-card.featured {
+            border: 2px solid #1E3A8A;
+        }
+        .pricing-card.featured::before {
+            content: 'Most Popular';
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1E3A8A;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+        .price {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #1E3A8A;
+            margin-bottom: 0.5rem;
+        }
+        .admin-section {
+            display: none;
+        }
+        .admin-section.show {
+            display: block;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+        }
+        .modal-content {
+            background: white;
+            margin: 5% auto;
+            padding: 2rem;
+            border-radius: 8px;
+            max-width: 500px;
+            position: relative;
+        }
+        .close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #6b7280;
+        }
+        @media (max-width: 768px) {
+            .tabs {
+                flex-direction: column;
+            }
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <span class="logo-icon">📺</span>
+                AdNabbit
+            </div>
+            <div class="user-info">
+                <span id="userRole">Administrator</span>
+                <a href="flutter_app.html" class="logout-btn">Logout</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="tabs">
+            <button class="tab active" onclick="showTab('dashboard')">📊 Dashboard</button>
+            <button class="tab" onclick="showTab('locations')">📍 Locations</button>
+            <button class="tab" onclick="showTab('ads')">🎨 My Ads</button>
+            <button class="tab" onclick="showTab('campaigns')">🚀 Campaigns</button>
+            <button class="tab admin-section" id="adminTab" onclick="showTab('admin')">⚙️ Admin</button>
+        </div>
+
+        <!-- Dashboard Tab -->
+        <div id="dashboard" class="tab-content active">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>24</h3>
+                    <p>Active Campaigns</p>
+                </div>
+                <div class="stat-card">
+                    <h3>156</h3>
+                    <p>Available Screens</p>
+                </div>
+                <div class="stat-card">
+                    <h3>89.2%</h3>
+                    <p>Campaign Success Rate</p>
+                </div>
+                <div class="stat-card">
+                    <h3>$2,847</h3>
+                    <p>Monthly Revenue</p>
+                </div>
+            </div>
+
+            <div class="campaign-card">
+                <div class="campaign-header">
+                    <div class="campaign-title">Recent Activity</div>
+                </div>
+                <ul style="list-style: none; padding: 0;">
+                    <li style="padding: 0.5rem 0; border-bottom: 1px solid #e5e7eb;">
+                        📍 New screen added: Downtown Mall - Screen #47
+                    </li>
+                    <li style="padding: 0.5rem 0; border-bottom: 1px solid #e5e7eb;">
+                        🚀 Campaign "Summer Sale" deployed to 12 screens
+                    </li>
+                    <li style="padding: 0.5rem 0; border-bottom: 1px solid #e5e7eb;">
+                        📊 Analytics report generated for Q4 campaigns
+                    </li>
+                    <li style="padding: 0.5rem 0;">
+                        👤 New subscriber: Premium plan activated
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Locations Tab -->
+        <div id="locations" class="tab-content">
+            <div style="margin-bottom: 2rem;">
+                <h2 style="color: #1E3A8A; margin-bottom: 1rem;">Digital Screen Locations</h2>
+                <p style="color: #6b7280;">Browse and select from available digital screens across the city.</p>
+            </div>
+            
+            <div class="locations-grid">
+                <div class="location-card">
+                    <div class="location-image">🏢</div>
+                    <div class="location-info">
+                        <h3>Downtown Mall</h3>
+                        <p style="color: #6b7280; margin-bottom: 0.5rem;">Main entrance, high traffic area</p>
+                        <span class="location-status status-available">Available</span>
+                        <div style="margin-top: 1rem;">
+                            <button class="btn" onclick="selectScreen('Downtown Mall')">Select Screen</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="location-card">
+                    <div class="location-image">🚇</div>
+                    <div class="location-info">
+                        <h3>Metro Station</h3>
+                        <p style="color: #6b7280; margin-bottom: 0.5rem;">Platform 2, morning commuters</p>
+                        <span class="location-status status-busy">In Use</span>
+                        <div style="margin-top: 1rem;">
+                            <button class="btn btn-secondary" disabled>Currently Busy</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="location-card">
+                    <div class="location-image">🏪</div>
+                    <div class="location-info">
+                        <h3>Coffee Shop Chain</h3>
+                        <p style="color: #6b7280; margin-bottom: 0.5rem;">15 locations, breakfast crowd</p>
+                        <span class="location-status status-available">Available</span>
+                        <div style="margin-top: 1rem;">
+                            <button class="btn" onclick="selectScreen('Coffee Shop Chain')">Select Screen</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="location-card">
+                    <div class="location-image">🏥</div>
+                    <div class="location-info">
+                        <h3>Medical Center</h3>
+                        <p style="color: #6b7280; margin-bottom: 0.5rem;">Waiting areas, extended viewing</p>
+                        <span class="location-status status-available">Available</span>
+                        <div style="margin-top: 1rem;">
+                            <button class="btn" onclick="selectScreen('Medical Center')">Select Screen</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- My Ads Tab -->
+        <div id="ads" class="tab-content">
+            <div style="margin-bottom: 2rem;">
+                <h2 style="color: #1E3A8A; margin-bottom: 1rem;">My Advertising Content</h2>
+                <button class="btn" onclick="showModal('uploadModal')">📤 Upload New Ad</button>
+            </div>
+            
+            <div class="locations-grid">
+                <div class="campaign-card">
+                    <div class="campaign-header">
+                        <div class="campaign-title">Summer Sale Banner</div>
+                        <span class="campaign-status status-active">Active</span>
+                    </div>
+                    <p style="color: #6b7280; margin-bottom: 1rem;">1920x1080 • Created: Dec 15, 2024</p>
+                    <div style="display: flex; gap: 1rem;">
+                        <button class="btn">Edit</button>
+                        <button class="btn btn-secondary">Preview</button>
+                    </div>
+                </div>
+                
+                <div class="campaign-card">
+                    <div class="campaign-header">
+                        <div class="campaign-title">Product Launch Video</div>
+                        <span class="campaign-status status-paused">Draft</span>
+                    </div>
+                    <p style="color: #6b7280; margin-bottom: 1rem;">MP4 • 30 seconds • Created: Dec 10, 2024</p>
+                    <div style="display: flex; gap: 1rem;">
+                        <button class="btn">Edit</button>
+                        <button class="btn btn-secondary">Preview</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Campaigns Tab -->
+        <div id="campaigns" class="tab-content">
+            <div style="margin-bottom: 2rem;">
+                <h2 style="color: #1E3A8A; margin-bottom: 1rem;">Campaign Management</h2>
+                <button class="btn" onclick="showModal('campaignModal')">🚀 Create New Campaign</button>
+            </div>
+            
+            <div class="campaign-card">
+                <div class="campaign-header">
+                    <div class="campaign-title">Holiday Promotion 2024</div>
+                    <span class="campaign-status status-active">Active</span>
+                </div>
+                <p style="color: #6b7280; margin-bottom: 1rem;">Running on 8 screens • Budget: $500/month • CTR: 3.2%</p>
+                <div style="display: flex; gap: 1rem;">
+                    <button class="btn">View Analytics</button>
+                    <button class="btn btn-secondary">Edit Campaign</button>
+                </div>
+            </div>
+            
+            <div class="campaign-card">
+                <div class="campaign-header">
+                    <div class="campaign-title">New Product Launch</div>
+                    <span class="campaign-status status-paused">Paused</span>
+                </div>
+                <p style="color: #6b7280; margin-bottom: 1rem;">Scheduled for 12 screens • Budget: $750/month • Starts: Jan 1, 2025</p>
+                <div style="display: flex; gap: 1rem;">
+                    <button class="btn">Resume</button>
+                    <button class="btn btn-secondary">Edit Campaign</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Admin Tab -->
+        <div id="admin" class="tab-content admin-section">
+            <div style="margin-bottom: 2rem;">
+                <h2 style="color: #1E3A8A; margin-bottom: 1rem;">System Administration</h2>
+                <p style="color: #6b7280;">Manage users, subscriptions, and system settings.</p>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>127</h3>
+                    <p>Total Users</p>
+                </div>
+                <div class="stat-card">
+                    <h3>89</h3>
+                    <p>Active Subscribers</p>
+                </div>
+                <div class="stat-card">
+                    <h3>$12,450</h3>
+                    <p>Monthly Revenue</p>
+                </div>
+                <div class="stat-card">
+                    <h3>99.2%</h3>
+                    <p>System Uptime</p>
+                </div>
+            </div>
+
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <h3>Basic Plan</h3>
+                    <div class="price">$150</div>
+                    <p>per month</p>
+                    <p style="margin: 1rem 0;">Up to 10 screens</p>
+                    <p style="color: #6b7280;">34 active subscribers</p>
+                </div>
+                
+                <div class="pricing-card featured">
+                    <h3>Standard Plan</h3>
+                    <div class="price">$200</div>
+                    <p>per month</p>
+                    <p style="margin: 1rem 0;">Up to 15 screens</p>
+                    <p style="color: #6b7280;">42 active subscribers</p>
+                </div>
+                
+                <div class="pricing-card">
+                    <h3>Premium Plan</h3>
+                    <div class="price">$300</div>
+                    <p>per month</p>
+                    <p style="margin: 1rem 0;">Up to 30 screens</p>
+                    <p style="color: #6b7280;">13 active subscribers</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Upload Modal -->
+    <div id="uploadModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="hideModal('uploadModal')">&times;</span>
+            <h2 style="color: #1E3A8A; margin-bottom: 1rem;">Upload New Ad</h2>
+            <form>
+                <div style="margin-bottom: 1rem;">
+                    <label style="display: block; margin-bottom: 0.5rem;">Ad Title</label>
+                    <input type="text" style="width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 6px;" placeholder="Enter ad title">
+                </div>
+                <div style="margin-bottom: 1rem;">
+                    <label style="display: block; margin-bottom: 0.5rem;">Upload File</label>
+                    <input type="file" style="width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 6px;">
+                </div>
+                <div style="display: flex; gap: 1rem;">
+                    <button type="button" class="btn">Upload Ad</button>
+                    <button type="button" class="btn btn-secondary" onclick="hideModal('uploadModal')">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Campaign Modal -->
+    <div id="campaignModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="hideModal('campaignModal')">&times;</span>
+            <h2 style="color: #1E3A8A; margin-bottom: 1rem;">Create New Campaign</h2>
+            <form>
+                <div style="margin-bottom: 1rem;">
+                    <label style="display: block; margin-bottom: 0.5rem;">Campaign Name</label>
+                    <input type="text" style="width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 6px;" placeholder="Enter campaign name">
+                </div>
+                <div style="margin-bottom: 1rem;">
+                    <label style="display: block; margin-bottom: 0.5rem;">Budget (per month)</label>
+                    <input type="number" style="width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 6px;" placeholder="500">
+                </div>
+                <div style="margin-bottom: 1rem;">
+                    <label style="display: block; margin-bottom: 0.5rem;">Target Screens</label>
+                    <select style="width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 6px;">
+                        <option>Downtown Mall (5 screens)</option>
+                        <option>Coffee Shop Chain (15 screens)</option>
+                        <option>Medical Center (3 screens)</option>
+                    </select>
+                </div>
+                <div style="display: flex; gap: 1rem;">
+                    <button type="button" class="btn">Create Campaign</button>
+                    <button type="button" class="btn btn-secondary" onclick="hideModal('campaignModal')">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Get user role from URL parameters or localStorage
+        const urlParams = new URLSearchParams(window.location.search);
+        const userRole = urlParams.get('role') || localStorage.getItem('userRole') || 'Subscriber';
+        
+        document.getElementById('userRole').textContent = userRole;
+        
+        // Show admin tab only for administrators
+        if (userRole === 'Administrator') {
+            document.getElementById('adminTab').classList.add('show');
+            document.querySelector('.admin-section').classList.add('show');
+        }
+
+        function showTab(tabName) {
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Remove active class from all tabs
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected tab content
+            document.getElementById(tabName).classList.add('active');
+            
+            // Add active class to clicked tab
+            event.target.classList.add('active');
+        }
+
+        function selectScreen(screenName) {
+            alert(`Selected: ${screenName}\n\nThis would normally open the campaign creation flow to deploy ads to this screen location.`);
+        }
+
+        function showModal(modalId) {
+            document.getElementById(modalId).style.display = 'block';
+        }
+
+        function hideModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>

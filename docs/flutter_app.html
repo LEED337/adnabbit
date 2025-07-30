@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AdNabbit - Login</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #1E3A8A;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .login-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+        .logo {
+            width: 80px;
+            height: 80px;
+            background: #1E3A8A;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 2rem;
+            color: white;
+        }
+        h1 {
+            color: #1E3A8A;
+            margin-bottom: 0.5rem;
+            font-size: 1.5rem;
+        }
+        .subtitle {
+            color: #6b7280;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+        }
+        .form-group {
+            margin-bottom: 1rem;
+            text-align: left;
+        }
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #374151;
+            font-weight: 500;
+        }
+        input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+        input:focus {
+            outline: none;
+            border-color: #1E3A8A;
+            box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.1);
+        }
+        .btn {
+            width: 100%;
+            padding: 0.75rem;
+            background: #1E3A8A;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 1rem;
+        }
+        .btn:hover {
+            background: #1e40af;
+        }
+        .demo-section {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #e5e7eb;
+        }
+        .demo-btn {
+            width: 100%;
+            padding: 0.5rem;
+            background: #f3f4f6;
+            color: #374151;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            margin-bottom: 0.5rem;
+        }
+        .demo-btn:hover {
+            background: #e5e7eb;
+        }
+        .back-link {
+            margin-top: 1rem;
+            text-align: center;
+        }
+        .back-link a {
+            color: #1E3A8A;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+        .dashboard {
+            display: none;
+            text-align: center;
+        }
+        .dashboard h2 {
+            color: #1E3A8A;
+            margin-bottom: 1rem;
+        }
+        .features-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        .feature-card {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .feature-card h3 {
+            color: #1E3A8A;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+        .feature-card p {
+            font-size: 0.8rem;
+            color: #6b7280;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div id="loginForm">
+            <div class="logo">📺</div>
+            <h1>Welcome to AdNabbit</h1>
+            <p class="subtitle">Digital Screen Advertising Platform</p>
+            
+            <form onsubmit="return false;">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" placeholder="Enter your email">
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" placeholder="Enter your password">
+                </div>
+                <button type="button" class="btn" onclick="login()">Sign In</button>
+            </form>
+
+            <div class="demo-section">
+                <p style="font-size: 0.9rem; color: #6b7280; margin-bottom: 1rem;">Demo Credentials:</p>
+                <button class="demo-btn" onclick="loginAsAdmin()">Login as Administrator</button>
+                <button class="demo-btn" onclick="loginAsSubscriber()">Login as Subscriber</button>
+            </div>
+
+            <div class="back-link">
+                <a href="index.html">← Back to Landing Page</a>
+            </div>
+        </div>
+
+        <div id="dashboard" class="dashboard">
+            <div class="logo">📺</div>
+            <h2 id="welcomeMessage">Welcome to AdNabbit Dashboard</h2>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h3>📍 Locations</h3>
+                    <p>Browse digital screens</p>
+                </div>
+                <div class="feature-card">
+                    <h3>📊 My Ads</h3>
+                    <p>Manage content</p>
+                </div>
+                <div class="feature-card">
+                    <h3>🚀 Campaigns</h3>
+                    <p>Create campaigns</p>
+                </div>
+                <div class="feature-card" id="adminCard" style="display: none;">
+                    <h3>⚙️ Admin</h3>
+                    <p>System management</p>
+                </div>
+            </div>
+
+            <div style="margin-top: 1.5rem; padding: 1rem; background: #f0f9ff; border-radius: 8px; text-align: left;">
+                <h3 style="color: #1E3A8A; margin: 0 0 0.5rem 0; font-size: 1rem;">Available Features:</h3>
+                <ul style="margin: 0; padding-left: 1.2rem; font-size: 0.9rem; color: #374151;">
+                    <li>Browse digital screen locations</li>
+                    <li>Upload and manage advertising content</li>
+                    <li>Create targeted campaigns</li>
+                    <li>View real-time analytics</li>
+                    <li id="adminFeature" style="display: none;">Admin panel with system management</li>
+                </ul>
+            </div>
+
+            <div style="margin-top: 1rem;">
+                <button class="demo-btn" onclick="logout()">Logout</button>
+                <div class="back-link">
+                    <a href="index.html">← Back to Landing Page</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function login() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            if (email && password) {
+                showDashboard('User');
+            } else {
+                alert('Please enter email and password');
+            }
+        }
+
+        function loginAsAdmin() {
+            document.getElementById('email').value = 'admin@adnabbit.com';
+            document.getElementById('password').value = 'admin123';
+            showDashboard('Administrator');
+        }
+
+        function loginAsSubscriber() {
+            document.getElementById('email').value = 'user@example.com';
+            document.getElementById('password').value = 'user123';
+            showDashboard('Subscriber');
+        }
+
+        function showDashboard(userType) {
+            // Store user role and redirect to full dashboard
+            localStorage.setItem('userRole', userType);
+            window.location.href = `dashboard.html?role=${userType}`;
+        }
+
+        function logout() {
+            document.getElementById('loginForm').style.display = 'block';
+            document.getElementById('dashboard').style.display = 'none';
+            document.getElementById('email').value = '';
+            document.getElementById('password').value = '';
+            document.getElementById('adminCard').style.display = 'none';
+            document.getElementById('adminFeature').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
