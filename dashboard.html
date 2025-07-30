@@ -4,6 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AdNabbit Dashboard</title>
+    
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+          crossorigin=""/>
+    
     <style>
         * {
             margin: 0;
@@ -278,80 +284,110 @@
             color: #6b7280;
         }
         /* Map View Styles */
-        .screen-marker {
-            position: absolute;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            z-index: 10;
+        #screenMap {
+            z-index: 1;
         }
-        .screen-marker:hover {
-            transform: scale(1.1);
-            z-index: 20;
+        
+        /* Custom Leaflet Marker Styles */
+        .custom-screen-marker {
+            width: 40px !important;
+            height: 40px !important;
+            border-radius: 50% !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            font-size: 1.2rem !important;
+            border: 3px solid !important;
+            background: white !important;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3) !important;
+            cursor: pointer !important;
+            transition: all 0.3s ease !important;
         }
-        .screen-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            border: 3px solid;
-            background: white;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        
+        .custom-screen-marker:hover {
+            transform: scale(1.1) !important;
         }
-        .screen-marker.available .screen-icon {
-            border-color: #10b981;
-            color: #10b981;
+        
+        .marker-available {
+            border-color: #10b981 !important;
+            color: #10b981 !important;
         }
-        .screen-marker.selected .screen-icon {
-            border-color: #3b82f6;
-            color: #3b82f6;
-            background: #eff6ff;
+        
+        .marker-selected {
+            border-color: #3b82f6 !important;
+            color: #3b82f6 !important;
+            background: #eff6ff !important;
         }
-        .screen-marker.limited .screen-icon {
-            border-color: #f59e0b;
-            color: #f59e0b;
+        
+        .marker-limited {
+            border-color: #f59e0b !important;
+            color: #f59e0b !important;
         }
-        .screen-marker.full .screen-icon {
-            border-color: #ef4444;
-            color: #ef4444;
+        
+        .marker-full {
+            border-color: #ef4444 !important;
+            color: #ef4444 !important;
         }
-        .screen-info {
-            position: absolute;
-            top: 45px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: white;
-            padding: 0.5rem;
-            border-radius: 6px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-            min-width: 120px;
+        
+        /* Custom Popup Styles */
+        .leaflet-popup-content-wrapper {
+            border-radius: 8px !important;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
+        }
+        
+        .screen-popup {
             text-align: center;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
-            border: 1px solid #e5e7eb;
+            min-width: 200px;
         }
-        .screen-marker:hover .screen-info {
-            opacity: 1;
-            pointer-events: auto;
-        }
-        .screen-name {
+        
+        .screen-popup .screen-name {
             font-weight: 600;
             color: #1E3A8A;
-            font-size: 0.9rem;
-            margin-bottom: 0.25rem;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
         }
-        .screen-capacity {
-            font-size: 0.8rem;
+        
+        .screen-popup .screen-details {
             color: #6b7280;
-            margin-bottom: 0.25rem;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
         }
-        .screen-price {
-            font-size: 0.8rem;
+        
+        .screen-popup .screen-capacity {
+            font-size: 0.9rem;
+            color: #6b7280;
+            margin-bottom: 0.5rem;
+        }
+        
+        .screen-popup .screen-price {
+            font-size: 1rem;
             font-weight: 600;
             color: #059669;
+            margin-bottom: 1rem;
+        }
+        
+        .screen-popup .popup-button {
+            background: #1E3A8A;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background 0.3s;
+            margin: 0 0.25rem;
+        }
+        
+        .screen-popup .popup-button:hover {
+            background: #1e40af;
+        }
+        
+        .screen-popup .popup-button.secondary {
+            background: #6b7280;
+        }
+        
+        .screen-popup .popup-button.secondary:hover {
+            background: #4b5563;
         }
         .selected-location-item {
             background: #f9fafb;
@@ -500,84 +536,7 @@
                     </div>
                     
                     <!-- Interactive Map Container -->
-                    <div id="screenMap" style="position: relative; background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%); border-radius: 8px; height: 500px; overflow: hidden; border: 2px solid #e5e7eb;">
-                        <!-- Map Background -->
-                        <div style="position: absolute; top: 20px; left: 20px; color: #6b7280; font-size: 0.8rem;">Downtown Area</div>
-                        <div style="position: absolute; bottom: 20px; right: 20px; color: #6b7280; font-size: 0.8rem;">Scale: 1km</div>
-                        
-                        <!-- Screen Locations -->
-                        <div class="screen-marker selected" data-location="downtown-mall" style="position: absolute; top: 120px; left: 200px;">
-                            <div class="screen-icon">📺</div>
-                            <div class="screen-info">
-                                <div class="screen-name">Downtown Mall</div>
-                                <div class="screen-capacity">18/30</div>
-                                <div class="screen-price">$45/mo</div>
-                            </div>
-                        </div>
-                        
-                        <div class="screen-marker available" data-location="metro-station" style="position: absolute; top: 80px; left: 350px;">
-                            <div class="screen-icon">📺</div>
-                            <div class="screen-info">
-                                <div class="screen-name">Metro Station</div>
-                                <div class="screen-capacity">12/30</div>
-                                <div class="screen-price">$35/mo</div>
-                            </div>
-                        </div>
-                        
-                        <div class="screen-marker selected" data-location="coffee-shops" style="position: absolute; top: 200px; left: 150px;">
-                            <div class="screen-icon">📺</div>
-                            <div class="screen-info">
-                                <div class="screen-name">Coffee Shops</div>
-                                <div class="screen-capacity">22/30</div>
-                                <div class="screen-price">$25/mo</div>
-                            </div>
-                        </div>
-                        
-                        <div class="screen-marker available" data-location="medical-center" style="position: absolute; top: 300px; left: 400px;">
-                            <div class="screen-icon">📺</div>
-                            <div class="screen-info">
-                                <div class="screen-name">Medical Center</div>
-                                <div class="screen-capacity">8/30</div>
-                                <div class="screen-price">$30/mo</div>
-                            </div>
-                        </div>
-                        
-                        <div class="screen-marker selected" data-location="university" style="position: absolute; top: 350px; left: 100px;">
-                            <div class="screen-icon">📺</div>
-                            <div class="screen-info">
-                                <div class="screen-name">University</div>
-                                <div class="screen-capacity">15/30</div>
-                                <div class="screen-price">$20/mo</div>
-                            </div>
-                        </div>
-                        
-                        <div class="screen-marker selected" data-location="shopping-center" style="position: absolute; top: 180px; left: 450px;">
-                            <div class="screen-icon">📺</div>
-                            <div class="screen-info">
-                                <div class="screen-name">Shopping Center</div>
-                                <div class="screen-capacity">25/30</div>
-                                <div class="screen-price">$40/mo</div>
-                            </div>
-                        </div>
-                        
-                        <div class="screen-marker limited" data-location="airport" style="position: absolute; top: 60px; left: 500px;">
-                            <div class="screen-icon">📺</div>
-                            <div class="screen-info">
-                                <div class="screen-name">Airport</div>
-                                <div class="screen-capacity">28/30</div>
-                                <div class="screen-price">$60/mo</div>
-                            </div>
-                        </div>
-                        
-                        <div class="screen-marker full" data-location="stadium" style="position: absolute; top: 400px; left: 300px;">
-                            <div class="screen-icon">📺</div>
-                            <div class="screen-info">
-                                <div class="screen-name">Stadium</div>
-                                <div class="screen-capacity">30/30</div>
-                                <div class="screen-price">$80/mo</div>
-                            </div>
-                        </div>
-                    </div>
+                    <div id="screenMap" style="height: 500px; border-radius: 8px; overflow: hidden; border: 2px solid #e5e7eb;"></div>
                 </div>
                 
                 <!-- Selected Locations Summary -->
@@ -1077,62 +1036,73 @@
         }
 
         // Map and location management
+        let map = null;
+        let markers = {};
+        
         const locationData = {
             'downtown-mall': { 
                 name: 'Downtown Mall', 
                 cost: 45, 
                 selected: true, 
                 capacity: { used: 18, total: 30 },
-                description: 'Main entrance • 15,000 daily visitors'
+                description: 'Main entrance • 15,000 daily visitors',
+                coordinates: [40.7589, -73.9851] // NYC coordinates for demo
             },
             'metro-station': { 
                 name: 'Metro Station', 
                 cost: 35, 
                 selected: false, 
                 capacity: { used: 12, total: 30 },
-                description: 'Platform 2 • 8,000 morning commuters'
+                description: 'Platform 2 • 8,000 morning commuters',
+                coordinates: [40.7614, -73.9776]
             },
             'coffee-shops': { 
                 name: 'Coffee Shop Chain', 
                 cost: 25, 
                 selected: true, 
                 capacity: { used: 22, total: 30 },
-                description: '5 locations • Business professionals'
+                description: '5 locations • Business professionals',
+                coordinates: [40.7505, -73.9934]
             },
             'medical-center': { 
                 name: 'Medical Center', 
                 cost: 30, 
                 selected: false, 
                 capacity: { used: 8, total: 30 },
-                description: 'Waiting areas • Extended viewing time'
+                description: 'Waiting areas • Extended viewing time',
+                coordinates: [40.7829, -73.9654]
             },
             'university': { 
                 name: 'University Campus', 
                 cost: 20, 
                 selected: true, 
                 capacity: { used: 15, total: 30 },
-                description: 'Student center • Young demographic'
+                description: 'Student center • Young demographic',
+                coordinates: [40.7282, -73.9942]
             },
             'shopping-center': { 
                 name: 'Shopping Center', 
                 cost: 40, 
                 selected: true, 
                 capacity: { used: 25, total: 30 },
-                description: 'Food court • Family shoppers'
+                description: 'Food court • Family shoppers',
+                coordinates: [40.7736, -73.9566]
             },
             'airport': { 
                 name: 'Airport', 
                 cost: 60, 
                 selected: false, 
                 capacity: { used: 28, total: 30 },
-                description: 'Departure gates • International travelers'
+                description: 'Departure gates • International travelers',
+                coordinates: [40.7769, -73.8740]
             },
             'stadium': { 
                 name: 'Stadium', 
                 cost: 80, 
                 selected: false, 
                 capacity: { used: 30, total: 30 },
-                description: 'Event venue • Sports fans (waitlist only)'
+                description: 'Event venue • Sports fans (waitlist only)',
+                coordinates: [40.8296, -73.9262]
             }
         };
 
@@ -1142,7 +1112,11 @@
             document.getElementById('mapViewBtn').className = 'btn';
             document.getElementById('listViewBtn').className = 'btn btn-secondary';
             updateSelectedLocationsList();
-            initializeMapInteractions();
+            
+            // Initialize map if not already created
+            if (!map) {
+                initializeLeafletMap();
+            }
         }
 
         function showListView() {
@@ -1152,18 +1126,100 @@
             document.getElementById('listViewBtn').className = 'btn';
         }
 
-        function initializeMapInteractions() {
-            const markers = document.querySelectorAll('.screen-marker');
-            markers.forEach(marker => {
-                marker.addEventListener('click', function() {
-                    const locationId = this.getAttribute('data-location');
-                    const location = locationData[locationId];
-                    
-                    if (location) {
-                        showLocationDetails(locationId, location);
-                    }
-                });
+        function initializeLeafletMap() {
+            // Initialize the map centered on NYC
+            map = L.map('screenMap').setView([40.7589, -73.9851], 12);
+            
+            // Add OpenStreetMap tiles
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors',
+                maxZoom: 18,
+            }).addTo(map);
+            
+            // Add markers for each location
+            Object.entries(locationData).forEach(([locationId, location]) => {
+                addMarkerToMap(locationId, location);
             });
+        }
+        
+        function addMarkerToMap(locationId, location) {
+            const statusClass = getMarkerStatusClass(location);
+            const icon = getMarkerIcon(location);
+            
+            // Create custom HTML marker
+            const customIcon = L.divIcon({
+                html: `<div class="custom-screen-marker ${statusClass}">📺</div>`,
+                className: 'custom-marker',
+                iconSize: [40, 40],
+                iconAnchor: [20, 20],
+                popupAnchor: [0, -20]
+            });
+            
+            // Create marker
+            const marker = L.marker(location.coordinates, { icon: customIcon }).addTo(map);
+            
+            // Create popup content
+            const popupContent = createPopupContent(locationId, location);
+            marker.bindPopup(popupContent, {
+                maxWidth: 300,
+                className: 'custom-popup'
+            });
+            
+            // Store marker reference
+            markers[locationId] = marker;
+        }
+        
+        function getMarkerStatusClass(location) {
+            if (location.selected) return 'marker-selected';
+            if (location.capacity.used >= location.capacity.total) return 'marker-full';
+            if (location.capacity.used / location.capacity.total >= 0.9) return 'marker-limited';
+            return 'marker-available';
+        }
+        
+        function createPopupContent(locationId, location) {
+            const isSelected = location.selected;
+            const capacityStatus = getCapacityStatus(location.capacity);
+            const canSelect = !isSelected && location.capacity.used < location.capacity.total;
+            
+            const buttonText = isSelected ? 'Remove Location' : 
+                              canSelect ? 'Add Location' : 'Join Waitlist';
+            const buttonClass = isSelected ? 'secondary' : '';
+            
+            return `
+                <div class="screen-popup">
+                    <div class="screen-name">${location.name}</div>
+                    <div class="screen-details">${location.description}</div>
+                    <div class="screen-capacity">Capacity: ${location.capacity.used}/${location.capacity.total} ads</div>
+                    <div class="screen-capacity">Status: ${capacityStatus}</div>
+                    <div class="screen-price">$${location.cost}/month</div>
+                    <button class="popup-button ${buttonClass}" onclick="toggleLocationFromMap('${locationId}')">
+                        ${buttonText}
+                    </button>
+                </div>
+            `;
+        }
+        
+        function toggleLocationFromMap(locationId) {
+            toggleLocation(locationId);
+            
+            // Update marker appearance
+            const location = locationData[locationId];
+            const marker = markers[locationId];
+            if (marker) {
+                const statusClass = getMarkerStatusClass(location);
+                const newIcon = L.divIcon({
+                    html: `<div class="custom-screen-marker ${statusClass}">📺</div>`,
+                    className: 'custom-marker',
+                    iconSize: [40, 40],
+                    iconAnchor: [20, 20],
+                    popupAnchor: [0, -20]
+                });
+                marker.setIcon(newIcon);
+                
+                // Update popup content
+                const popupContent = createPopupContent(locationId, location);
+                marker.setPopupContent(popupContent);
+            }
         }
 
         function showLocationDetails(locationId, location) {
@@ -1254,6 +1310,13 @@
             if (!location) return;
             
             const wasSelected = location.selected;
+            const canSelect = !wasSelected && location.capacity.used < location.capacity.total;
+            
+            if (!wasSelected && !canSelect) {
+                alert('✅ Added to waitlist! We\'ll notify you when a slot becomes available.');
+                return;
+            }
+            
             const action = wasSelected ? 'remove' : 'add';
             const message = wasSelected 
                 ? `Remove ${location.name} from your selected locations?\n\nThis will save $${location.cost}/month.`
@@ -1262,13 +1325,6 @@
             if (confirm(message)) {
                 // Toggle selection
                 location.selected = !location.selected;
-                
-                // Update map marker appearance
-                const marker = document.querySelector(`[data-location="${locationId}"]`);
-                if (marker) {
-                    marker.className = marker.className.replace(/\b(available|selected)\b/g, '');
-                    marker.classList.add(location.selected ? 'selected' : 'available');
-                }
                 
                 // Update selected locations list if map view is active
                 if (document.getElementById('mapView').style.display !== 'none') {
@@ -1286,9 +1342,9 @@
             const totalScreens = selectedLocations.length;
             
             // Update the summary in map view
-            const summaryElement = document.querySelector('#mapView .campaign-card p');
-            if (summaryElement) {
-                summaryElement.innerHTML = `Total: ${totalScreens} screens • Monthly cost: $${totalCost}`;
+            const summaryElements = document.querySelectorAll('#mapView .campaign-card p');
+            if (summaryElements.length > 0) {
+                summaryElements[0].innerHTML = `Total: ${totalScreens} screens • Monthly cost: $${totalCost}`;
             }
         }
 
@@ -1393,5 +1449,10 @@
             }
         }
     </script>
+    
+    <!-- Leaflet JavaScript -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+            crossorigin=""></script>
 </body>
 </html>
