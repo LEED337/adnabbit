@@ -560,8 +560,8 @@
                     <div class="location-card">
                         <div class="location-image">🏢</div>
                         <div class="location-info">
-                            <h3>Downtown Mall</h3>
-                            <p style="color: #6b7280; margin-bottom: 0.5rem;">Main entrance • 15,000 daily visitors</p>
+                            <h3>City Creek Center</h3>
+                            <p style="color: #6b7280; margin-bottom: 0.5rem;">Downtown shopping • 12,000 daily visitors</p>
                             <p style="color: #6b7280; margin-bottom: 0.5rem;"><strong>$45/month per screen</strong> • Capacity: 18/30</p>
                             <span class="location-status status-active">✅ Selected</span>
                             <div style="margin-top: 1rem;">
@@ -573,8 +573,8 @@
                     <div class="location-card">
                         <div class="location-image">🚇</div>
                         <div class="location-info">
-                            <h3>Metro Station</h3>
-                            <p style="color: #6b7280; margin-bottom: 0.5rem;">Platform 2 • 8,000 morning commuters</p>
+                            <h3>TRAX Station</h3>
+                            <p style="color: #6b7280; margin-bottom: 0.5rem;">Light rail hub • 6,000 daily commuters</p>
                             <p style="color: #6b7280; margin-bottom: 0.5rem;"><strong>$35/month per screen</strong> • Capacity: 12/30</p>
                             <span class="location-status status-available">Available</span>
                             <div style="margin-top: 1rem;">
@@ -599,8 +599,8 @@
                     <div class="location-card">
                         <div class="location-image">🏥</div>
                         <div class="location-info">
-                            <h3>Medical Center</h3>
-                            <p style="color: #6b7280; margin-bottom: 0.5rem;">Waiting areas • Extended viewing time</p>
+                            <h3>University Hospital</h3>
+                            <p style="color: #6b7280; margin-bottom: 0.5rem;">Medical campus • Extended viewing time</p>
                             <p style="color: #6b7280; margin-bottom: 0.5rem;"><strong>$30/month per screen</strong> • Capacity: 8/30</p>
                             <span class="location-status status-available">Available</span>
                             <div style="margin-top: 1rem;">
@@ -612,8 +612,8 @@
                     <div class="location-card">
                         <div class="location-image">🏫</div>
                         <div class="location-info">
-                            <h3>University Campus</h3>
-                            <p style="color: #6b7280; margin-bottom: 0.5rem;">Student center • Young demographic</p>
+                            <h3>University of Utah</h3>
+                            <p style="color: #6b7280; margin-bottom: 0.5rem;">Student union • Young demographic</p>
                             <p style="color: #6b7280; margin-bottom: 0.5rem;"><strong>$20/month per screen</strong> • Capacity: 15/30</p>
                             <span class="location-status status-active">✅ Selected</span>
                             <div style="margin-top: 1rem;">
@@ -625,7 +625,7 @@
                     <div class="location-card">
                         <div class="location-image">🏬</div>
                         <div class="location-info">
-                            <h3>Shopping Center</h3>
+                            <h3>Fashion Place Mall</h3>
                             <p style="color: #6b7280; margin-bottom: 0.5rem;">Food court • Family shoppers</p>
                             <p style="color: #6b7280; margin-bottom: 0.5rem;"><strong>$40/month per screen</strong> • Capacity: 25/30</p>
                             <span class="location-status status-active">✅ Selected</span>
@@ -638,8 +638,8 @@
                     <div class="location-card">
                         <div class="location-image">✈️</div>
                         <div class="location-info">
-                            <h3>Airport</h3>
-                            <p style="color: #6b7280; margin-bottom: 0.5rem;">Departure gates • International travelers</p>
+                            <h3>Salt Lake Airport</h3>
+                            <p style="color: #6b7280; margin-bottom: 0.5rem;">Terminal gates • International travelers</p>
                             <p style="color: #6b7280; margin-bottom: 0.5rem;"><strong>$60/month per screen</strong> • Capacity: 28/30</p>
                             <span class="location-status status-busy">Limited</span>
                             <div style="margin-top: 1rem;">
@@ -651,7 +651,7 @@
                     <div class="location-card">
                         <div class="location-image">🏟️</div>
                         <div class="location-info">
-                            <h3>Stadium</h3>
+                            <h3>Rice-Eccles Stadium</h3>
                             <p style="color: #6b7280; margin-bottom: 0.5rem;">Event venue • Sports fans</p>
                             <p style="color: #6b7280; margin-bottom: 0.5rem;"><strong>$80/month per screen</strong> • Capacity: 30/30</p>
                             <span class="location-status status-busy">Full - Waitlist</span>
@@ -1041,68 +1041,68 @@
         
         const locationData = {
             'downtown-mall': { 
-                name: 'Downtown Mall', 
+                name: 'City Creek Center', 
                 cost: 45, 
                 selected: true, 
                 capacity: { used: 18, total: 30 },
-                description: 'Main entrance • 15,000 daily visitors',
-                coordinates: [40.7589, -73.9851] // NYC coordinates for demo
+                description: 'Downtown shopping • 12,000 daily visitors',
+                coordinates: [40.7701, -111.8910] // Salt Lake City coordinates
             },
             'metro-station': { 
-                name: 'Metro Station', 
+                name: 'TRAX Station', 
                 cost: 35, 
                 selected: false, 
                 capacity: { used: 12, total: 30 },
-                description: 'Platform 2 • 8,000 morning commuters',
-                coordinates: [40.7614, -73.9776]
+                description: 'Light rail hub • 6,000 daily commuters',
+                coordinates: [40.7608, -111.8910]
             },
             'coffee-shops': { 
                 name: 'Coffee Shop Chain', 
                 cost: 25, 
                 selected: true, 
                 capacity: { used: 22, total: 30 },
-                description: '5 locations • Business professionals',
-                coordinates: [40.7505, -73.9934]
+                description: '8 locations • Business professionals',
+                coordinates: [40.7505, -111.8804]
             },
             'medical-center': { 
-                name: 'Medical Center', 
+                name: 'University Hospital', 
                 cost: 30, 
                 selected: false, 
                 capacity: { used: 8, total: 30 },
-                description: 'Waiting areas • Extended viewing time',
-                coordinates: [40.7829, -73.9654]
+                description: 'Medical campus • Extended viewing time',
+                coordinates: [40.7738, -111.8389]
             },
             'university': { 
-                name: 'University Campus', 
+                name: 'University of Utah', 
                 cost: 20, 
                 selected: true, 
                 capacity: { used: 15, total: 30 },
-                description: 'Student center • Young demographic',
-                coordinates: [40.7282, -73.9942]
+                description: 'Student union • Young demographic',
+                coordinates: [40.7649, -111.8421]
             },
             'shopping-center': { 
-                name: 'Shopping Center', 
+                name: 'Fashion Place Mall', 
                 cost: 40, 
                 selected: true, 
                 capacity: { used: 25, total: 30 },
                 description: 'Food court • Family shoppers',
-                coordinates: [40.7736, -73.9566]
+                coordinates: [40.6501, -111.9048]
             },
             'airport': { 
-                name: 'Airport', 
+                name: 'Salt Lake Airport', 
                 cost: 60, 
                 selected: false, 
                 capacity: { used: 28, total: 30 },
-                description: 'Departure gates • International travelers',
-                coordinates: [40.7769, -73.8740]
+                description: 'Terminal gates • International travelers',
+                coordinates: [40.7899, -111.9791]
             },
             'stadium': { 
-                name: 'Stadium', 
+                name: 'Rice-Eccles Stadium', 
                 cost: 80, 
                 selected: false, 
                 capacity: { used: 30, total: 30 },
                 description: 'Event venue • Sports fans (waitlist only)',
-                coordinates: [40.8296, -73.9262]
+                coordinates: [40.7581, -111.8530]
             }
         };
 
@@ -1127,13 +1127,14 @@
         }
 
         function initializeLeafletMap() {
-            // Initialize the map centered on NYC
-            map = L.map('screenMap').setView([40.7589, -73.9851], 12);
+            // Initialize the map centered on Salt Lake City
+            map = L.map('screenMap').setView([40.7608, -111.8910], 11);
             
-            // Add OpenStreetMap tiles
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '© OpenStreetMap contributors',
-                maxZoom: 18,
+            // Add CartoDB Positron tiles (clean, minimal style without traffic colors)
+            L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+                attribution: '© OpenStreetMap contributors © CARTO',
+                subdomains: 'abcd',
+                maxZoom: 19
             }).addTo(map);
             
             // Add markers for each location
