@@ -289,44 +289,51 @@
         }
         
         /* Custom Leaflet Marker Styles */
+        .custom-marker {
+            background: transparent !important;
+            border: none !important;
+        }
+        
         .custom-screen-marker {
-            width: 40px !important;
-            height: 40px !important;
-            border-radius: 50% !important;
-            display: flex !important;
-            align-items: center !important;
-            justify-content: center !important;
-            font-size: 1.2rem !important;
-            border: 3px solid !important;
-            background: white !important;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.3) !important;
-            cursor: pointer !important;
-            transition: all 0.3s ease !important;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            border: 3px solid;
+            background: white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: -20px 0 0 -20px;
         }
         
         .custom-screen-marker:hover {
-            transform: scale(1.1) !important;
+            transform: scale(1.1);
+            z-index: 1000;
         }
         
         .marker-available {
-            border-color: #10b981 !important;
-            color: #10b981 !important;
+            border-color: #10b981;
+            color: #10b981;
         }
         
         .marker-selected {
-            border-color: #3b82f6 !important;
-            color: #3b82f6 !important;
-            background: #eff6ff !important;
+            border-color: #3b82f6;
+            color: #3b82f6;
+            background: #eff6ff;
         }
         
         .marker-limited {
-            border-color: #f59e0b !important;
-            color: #f59e0b !important;
+            border-color: #f59e0b;
+            color: #f59e0b;
         }
         
         .marker-full {
-            border-color: #ef4444 !important;
-            color: #ef4444 !important;
+            border-color: #ef4444;
+            color: #ef4444;
         }
         
         /* Custom Popup Styles */
@@ -1127,6 +1134,8 @@
         }
 
         function initializeLeafletMap() {
+            console.log('Initializing Leaflet map...');
+            
             // Initialize the map centered on Salt Lake City
             map = L.map('screenMap').setView([40.7608, -111.8910], 11);
             
@@ -1137,17 +1146,23 @@
                 maxZoom: 19
             }).addTo(map);
             
+            console.log('Map tiles loaded, adding markers...');
+            
             // Add markers for each location
             Object.entries(locationData).forEach(([locationId, location]) => {
+                console.log(`Adding marker for ${locationId}:`, location);
                 addMarkerToMap(locationId, location);
             });
+            
+            console.log('All markers added to map');
         }
         
         function addMarkerToMap(locationId, location) {
             const statusClass = getMarkerStatusClass(location);
-            const icon = getMarkerIcon(location);
             
-            // Create custom HTML marker
+            console.log(`Creating marker for ${locationId} with status ${statusClass}`);
+            
+            // Create custom HTML marker with better styling
             const customIcon = L.divIcon({
                 html: `<div class="custom-screen-marker ${statusClass}">📺</div>`,
                 className: 'custom-marker',
@@ -1168,6 +1183,8 @@
             
             // Store marker reference
             markers[locationId] = marker;
+            
+            console.log(`Marker created and added for ${locationId}`);
         }
         
         function getMarkerStatusClass(location) {
@@ -1271,6 +1288,24 @@
         document.addEventListener('DOMContentLoaded', function() {
             // Show list view by default, but prepare map view
             showListView();
+            
+            // Pre-initialize map when page loads to avoid delays
+            setTimeout(() => {
+                if (!map) {
+                    console.log('Pre-initializing map...');
+                    // Create map container but keep it hidden
+                    const mapView = document.getElementById('mapView');
+                    const originalDisplay = mapView.style.display;
+                    mapView.style.display = 'block';
+                    mapView.style.visibility = 'hidden';
+                    
+                    initializeLeafletMap();
+                    
+                    // Restore original display
+                    mapView.style.display = originalDisplay;
+                    mapView.style.visibility = 'visible';
+                }
+            }, 1000);
         });
 
         // Subscriber functions
