@@ -299,7 +299,7 @@
                 AdNabbit
             </div>
             <div class="user-info">
-                <span id="userRole">Administrator</span>
+                <span id="userRole">Subscriber</span>
                 <a href="flutter_app.html" class="logout-btn">Logout</a>
             </div>
         </div>
@@ -308,30 +308,47 @@
     <div class="container">
         <div class="tabs">
             <button class="tab active" onclick="showTab('dashboard')">📊 Dashboard</button>
-            <button class="tab" onclick="showTab('locations')">📍 Locations</button>
             <button class="tab" onclick="showTab('ads')">🎨 My Ads</button>
-            <button class="tab" onclick="showTab('campaigns')">🚀 Campaigns</button>
-            <button class="tab admin-section" id="adminTab" onclick="showTab('admin')">⚙️ Admin</button>
+            <button class="tab" onclick="showTab('locations')">📍 Select Locations</button>
+            <button class="tab" onclick="showTab('subscription')">💳 Subscription</button>
+            <button class="tab admin-section" id="adminTab" onclick="showTab('admin')">⚙️ Admin Panel</button>
         </div>
 
         <!-- Dashboard Tab -->
         <div id="dashboard" class="tab-content active">
+            <div style="margin-bottom: 2rem;">
+                <h2 style="color: #1E3A8A; margin-bottom: 1rem;">Welcome to AdNabbit!</h2>
+                <p style="color: #6b7280;">Manage your digital advertising campaigns across premium screen locations.</p>
+            </div>
+
             <div class="stats-grid">
                 <div class="stat-card">
-                    <h3>24</h3>
-                    <p>Active Campaigns</p>
+                    <h3 id="activeAds">3</h3>
+                    <p>Active Ads</p>
                 </div>
                 <div class="stat-card">
-                    <h3>156</h3>
-                    <p>Available Screens</p>
+                    <h3 id="selectedLocations">8</h3>
+                    <p>Screen Locations</p>
                 </div>
                 <div class="stat-card">
-                    <h3>89.2%</h3>
-                    <p>Campaign Success Rate</p>
+                    <h3 id="monthlyViews">12.4K</h3>
+                    <p>Monthly Views</p>
                 </div>
                 <div class="stat-card">
-                    <h3>$2,847</h3>
-                    <p>Monthly Revenue</p>
+                    <h3 id="currentPlan">Standard</h3>
+                    <p>Current Plan</p>
+                </div>
+            </div>
+
+            <div class="campaign-card">
+                <div class="campaign-header">
+                    <div class="campaign-title">Quick Actions</div>
+                </div>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1rem;">
+                    <button class="btn" onclick="showTab('ads')">📤 Upload New Ad</button>
+                    <button class="btn" onclick="showTab('locations')">📍 Choose Locations</button>
+                    <button class="btn" onclick="showTab('subscription')">💳 Manage Plan</button>
+                    <button class="btn btn-secondary" onclick="viewAnalytics()">📊 View Analytics</button>
                 </div>
             </div>
 
@@ -341,16 +358,16 @@
                 </div>
                 <ul style="list-style: none; padding: 0;">
                     <li style="padding: 0.5rem 0; border-bottom: 1px solid #e5e7eb;">
-                        📍 New screen added: Downtown Mall - Screen #47
+                        ✅ Ad "Summer Sale 2024" approved and live on 8 screens
                     </li>
                     <li style="padding: 0.5rem 0; border-bottom: 1px solid #e5e7eb;">
-                        🚀 Campaign "Summer Sale" deployed to 12 screens
+                        📍 Added 3 new locations: Coffee shops downtown
                     </li>
                     <li style="padding: 0.5rem 0; border-bottom: 1px solid #e5e7eb;">
-                        📊 Analytics report generated for Q4 campaigns
+                        💳 Payment processed successfully for January
                     </li>
                     <li style="padding: 0.5rem 0;">
-                        👤 New subscriber: Premium plan activated
+                        📊 Your ads reached 12,400 viewers this month
                     </li>
                 </ul>
             </div>
@@ -359,8 +376,8 @@
         <!-- Locations Tab -->
         <div id="locations" class="tab-content">
             <div style="margin-bottom: 2rem;">
-                <h2 style="color: #1E3A8A; margin-bottom: 1rem;">Digital Screen Locations</h2>
-                <p style="color: #6b7280;">Browse and select from available digital screens across the city.</p>
+                <h2 style="color: #1E3A8A; margin-bottom: 1rem;">Choose Your Screen Locations</h2>
+                <p style="color: #6b7280;">Select premium locations where you want your ads displayed. We handle all the technical setup.</p>
             </div>
             
             <div class="locations-grid">
@@ -368,10 +385,11 @@
                     <div class="location-image">🏢</div>
                     <div class="location-info">
                         <h3>Downtown Mall</h3>
-                        <p style="color: #6b7280; margin-bottom: 0.5rem;">Main entrance, high traffic area</p>
-                        <span class="location-status status-available">Available</span>
+                        <p style="color: #6b7280; margin-bottom: 0.5rem;">Main entrance • 15,000 daily visitors</p>
+                        <p style="color: #6b7280; margin-bottom: 0.5rem;"><strong>$45/month per screen</strong></p>
+                        <span class="location-status status-active">✅ Selected</span>
                         <div style="margin-top: 1rem;">
-                            <button class="btn" onclick="selectScreen('Downtown Mall')">Select Screen</button>
+                            <button class="btn btn-secondary" onclick="toggleLocation('downtown-mall')">Remove</button>
                         </div>
                     </div>
                 </div>
@@ -380,10 +398,11 @@
                     <div class="location-image">🚇</div>
                     <div class="location-info">
                         <h3>Metro Station</h3>
-                        <p style="color: #6b7280; margin-bottom: 0.5rem;">Platform 2, morning commuters</p>
-                        <span class="location-status status-busy">In Use</span>
+                        <p style="color: #6b7280; margin-bottom: 0.5rem;">Platform 2 • 8,000 morning commuters</p>
+                        <p style="color: #6b7280; margin-bottom: 0.5rem;"><strong>$35/month per screen</strong></p>
+                        <span class="location-status status-available">Available</span>
                         <div style="margin-top: 1rem;">
-                            <button class="btn btn-secondary" disabled>Currently Busy</button>
+                            <button class="btn" onclick="toggleLocation('metro-station')">Add Location</button>
                         </div>
                     </div>
                 </div>
@@ -392,10 +411,11 @@
                     <div class="location-image">🏪</div>
                     <div class="location-info">
                         <h3>Coffee Shop Chain</h3>
-                        <p style="color: #6b7280; margin-bottom: 0.5rem;">15 locations, breakfast crowd</p>
-                        <span class="location-status status-available">Available</span>
+                        <p style="color: #6b7280; margin-bottom: 0.5rem;">5 locations • Business professionals</p>
+                        <p style="color: #6b7280; margin-bottom: 0.5rem;"><strong>$25/month per location</strong></p>
+                        <span class="location-status status-active">✅ Selected (3 locations)</span>
                         <div style="margin-top: 1rem;">
-                            <button class="btn" onclick="selectScreen('Coffee Shop Chain')">Select Screen</button>
+                            <button class="btn btn-secondary" onclick="toggleLocation('coffee-shops')">Modify</button>
                         </div>
                     </div>
                 </div>
@@ -404,13 +424,49 @@
                     <div class="location-image">🏥</div>
                     <div class="location-info">
                         <h3>Medical Center</h3>
-                        <p style="color: #6b7280; margin-bottom: 0.5rem;">Waiting areas, extended viewing</p>
+                        <p style="color: #6b7280; margin-bottom: 0.5rem;">Waiting areas • Extended viewing time</p>
+                        <p style="color: #6b7280; margin-bottom: 0.5rem;"><strong>$30/month per screen</strong></p>
                         <span class="location-status status-available">Available</span>
                         <div style="margin-top: 1rem;">
-                            <button class="btn" onclick="selectScreen('Medical Center')">Select Screen</button>
+                            <button class="btn" onclick="toggleLocation('medical-center')">Add Location</button>
                         </div>
                     </div>
                 </div>
+
+                <div class="location-card">
+                    <div class="location-image">🏫</div>
+                    <div class="location-info">
+                        <h3>University Campus</h3>
+                        <p style="color: #6b7280; margin-bottom: 0.5rem;">Student center • Young demographic</p>
+                        <p style="color: #6b7280; margin-bottom: 0.5rem;"><strong>$20/month per screen</strong></p>
+                        <span class="location-status status-active">✅ Selected (2 screens)</span>
+                        <div style="margin-top: 1rem;">
+                            <button class="btn btn-secondary" onclick="toggleLocation('university')">Remove</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="location-card">
+                    <div class="location-image">🏬</div>
+                    <div class="location-info">
+                        <h3>Shopping Center</h3>
+                        <p style="color: #6b7280; margin-bottom: 0.5rem;">Food court • Family shoppers</p>
+                        <p style="color: #6b7280; margin-bottom: 0.5rem;"><strong>$40/month per screen</strong></p>
+                        <span class="location-status status-active">✅ Selected (3 screens)</span>
+                        <div style="margin-top: 1rem;">
+                            <button class="btn btn-secondary" onclick="toggleLocation('shopping-center')">Remove</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="campaign-card" style="margin-top: 2rem;">
+                <div class="campaign-header">
+                    <div class="campaign-title">Current Selection Summary</div>
+                </div>
+                <p style="color: #6b7280; margin-bottom: 1rem;">You have selected 8 screen locations across 4 venues.</p>
+                <p style="color: #1E3A8A; font-weight: 600; margin-bottom: 1rem;">Monthly cost: $285 (included in your Standard plan)</p>
+                <button class="btn" onclick="saveLocationSelection()">💾 Save Changes</button>
             </div>
         </div>
 
@@ -418,6 +474,7 @@
         <div id="ads" class="tab-content">
             <div style="margin-bottom: 2rem;">
                 <h2 style="color: #1E3A8A; margin-bottom: 1rem;">My Advertising Content</h2>
+                <p style="color: #6b7280; margin-bottom: 1rem;">Upload your ads and we'll handle getting them displayed on premium screens.</p>
                 <button class="btn" onclick="showModal('uploadModal')">📤 Upload New Ad</button>
             </div>
             
@@ -425,57 +482,149 @@
                 <div class="campaign-card">
                     <div class="campaign-header">
                         <div class="campaign-title">Summer Sale Banner</div>
-                        <span class="campaign-status status-active">Active</span>
+                        <span class="campaign-status status-active">Live</span>
                     </div>
-                    <p style="color: #6b7280; margin-bottom: 1rem;">1920x1080 • Created: Dec 15, 2024</p>
+                    <p style="color: #6b7280; margin-bottom: 1rem;">1920x1080 • Uploaded: Dec 15, 2024 • 8 locations</p>
+                    <p style="color: #6b7280; margin-bottom: 1rem;">Views this month: 3,247</p>
                     <div style="display: flex; gap: 1rem;">
-                        <button class="btn">Edit</button>
-                        <button class="btn btn-secondary">Preview</button>
+                        <button class="btn btn-secondary" onclick="viewAdAnalytics('summer-sale')">📊 View Stats</button>
+                        <button class="btn btn-secondary" onclick="pauseAd('summer-sale')">⏸️ Pause</button>
                     </div>
                 </div>
                 
                 <div class="campaign-card">
                     <div class="campaign-header">
                         <div class="campaign-title">Product Launch Video</div>
-                        <span class="campaign-status status-paused">Draft</span>
+                        <span class="campaign-status status-active">Live</span>
                     </div>
-                    <p style="color: #6b7280; margin-bottom: 1rem;">MP4 • 30 seconds • Created: Dec 10, 2024</p>
+                    <p style="color: #6b7280; margin-bottom: 1rem;">MP4 • 30 seconds • Uploaded: Dec 10, 2024 • 5 locations</p>
+                    <p style="color: #6b7280; margin-bottom: 1rem;">Views this month: 1,892</p>
                     <div style="display: flex; gap: 1rem;">
-                        <button class="btn">Edit</button>
-                        <button class="btn btn-secondary">Preview</button>
+                        <button class="btn btn-secondary" onclick="viewAdAnalytics('product-launch')">📊 View Stats</button>
+                        <button class="btn btn-secondary" onclick="pauseAd('product-launch')">⏸️ Pause</button>
+                    </div>
+                </div>
+
+                <div class="campaign-card">
+                    <div class="campaign-header">
+                        <div class="campaign-title">Holiday Special</div>
+                        <span class="campaign-status status-paused">Under Review</span>
+                    </div>
+                    <p style="color: #6b7280; margin-bottom: 1rem;">1920x1080 • Uploaded: Dec 20, 2024</p>
+                    <p style="color: #6b7280; margin-bottom: 1rem;">Status: Being reviewed by our team (typically 24-48 hours)</p>
+                    <div style="display: flex; gap: 1rem;">
+                        <button class="btn btn-secondary" disabled>⏳ Pending Review</button>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Campaigns Tab -->
-        <div id="campaigns" class="tab-content">
+        <!-- Subscription Tab -->
+        <div id="subscription" class="tab-content">
             <div style="margin-bottom: 2rem;">
-                <h2 style="color: #1E3A8A; margin-bottom: 1rem;">Campaign Management</h2>
-                <button class="btn" onclick="showModal('campaignModal')">🚀 Create New Campaign</button>
+                <h2 style="color: #1E3A8A; margin-bottom: 1rem;">Subscription Management</h2>
+                <p style="color: #6b7280;">Manage your AdNabbit subscription and billing.</p>
             </div>
-            
+
             <div class="campaign-card">
                 <div class="campaign-header">
-                    <div class="campaign-title">Holiday Promotion 2024</div>
+                    <div class="campaign-title">Current Plan: Standard</div>
                     <span class="campaign-status status-active">Active</span>
                 </div>
-                <p style="color: #6b7280; margin-bottom: 1rem;">Running on 8 screens • Budget: $500/month • CTR: 3.2%</p>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1rem;">
+                    <div>
+                        <strong>Monthly Cost:</strong> $200<br>
+                        <strong>Screen Limit:</strong> 15 screens<br>
+                        <strong>Currently Using:</strong> 8 screens
+                    </div>
+                    <div>
+                        <strong>Next Billing:</strong> Jan 15, 2025<br>
+                        <strong>Payment Method:</strong> •••• 4242<br>
+                        <strong>Status:</strong> <span style="color: #166534;">Paid</span>
+                    </div>
+                </div>
                 <div style="display: flex; gap: 1rem;">
-                    <button class="btn">View Analytics</button>
-                    <button class="btn btn-secondary">Edit Campaign</button>
+                    <button class="btn" onclick="showModal('upgradeModal')">⬆️ Upgrade Plan</button>
+                    <button class="btn btn-secondary" onclick="updatePayment()">💳 Update Payment</button>
                 </div>
             </div>
             
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <h3>Basic Plan</h3>
+                    <div class="price">$150</div>
+                    <p>per month</p>
+                    <ul style="text-align: left; margin: 1rem 0; color: #6b7280;">
+                        <li>Up to 10 screens</li>
+                        <li>Basic analytics</li>
+                        <li>Email support</li>
+                        <li>Standard locations</li>
+                    </ul>
+                    <button class="btn btn-secondary" disabled>Current Plan Below</button>
+                </div>
+                
+                <div class="pricing-card featured">
+                    <h3>Standard Plan</h3>
+                    <div class="price">$200</div>
+                    <p>per month</p>
+                    <ul style="text-align: left; margin: 1rem 0; color: #6b7280;">
+                        <li>Up to 15 screens</li>
+                        <li>Advanced analytics</li>
+                        <li>Priority support</li>
+                        <li>Premium locations</li>
+                    </ul>
+                    <button class="btn" style="background: #166534;" disabled>✅ Current Plan</button>
+                </div>
+                
+                <div class="pricing-card">
+                    <h3>Premium Plan</h3>
+                    <div class="price">$300</div>
+                    <p>per month</p>
+                    <ul style="text-align: left; margin: 1rem 0; color: #6b7280;">
+                        <li>Up to 30 screens</li>
+                        <li>Real-time analytics</li>
+                        <li>Phone support</li>
+                        <li>All locations + custom</li>
+                    </ul>
+                    <button class="btn" onclick="upgradeToPremium()">⬆️ Upgrade</button>
+                </div>
+            </div>
+
             <div class="campaign-card">
                 <div class="campaign-header">
-                    <div class="campaign-title">New Product Launch</div>
-                    <span class="campaign-status status-paused">Paused</span>
+                    <div class="campaign-title">Billing History</div>
                 </div>
-                <p style="color: #6b7280; margin-bottom: 1rem;">Scheduled for 12 screens • Budget: $750/month • Starts: Jan 1, 2025</p>
-                <div style="display: flex; gap: 1rem;">
-                    <button class="btn">Resume</button>
-                    <button class="btn btn-secondary">Edit Campaign</button>
+                <div style="overflow-x: auto;">
+                    <table style="width: 100%; border-collapse: collapse;">
+                        <thead>
+                            <tr style="border-bottom: 1px solid #e5e7eb;">
+                                <th style="text-align: left; padding: 0.5rem; color: #1E3A8A;">Date</th>
+                                <th style="text-align: left; padding: 0.5rem; color: #1E3A8A;">Plan</th>
+                                <th style="text-align: left; padding: 0.5rem; color: #1E3A8A;">Amount</th>
+                                <th style="text-align: left; padding: 0.5rem; color: #1E3A8A;">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="border-bottom: 1px solid #e5e7eb;">
+                                <td style="padding: 0.5rem;">Dec 15, 2024</td>
+                                <td style="padding: 0.5rem;">Standard</td>
+                                <td style="padding: 0.5rem;">$200.00</td>
+                                <td style="padding: 0.5rem; color: #166534;">Paid</td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid #e5e7eb;">
+                                <td style="padding: 0.5rem;">Nov 15, 2024</td>
+                                <td style="padding: 0.5rem;">Standard</td>
+                                <td style="padding: 0.5rem;">$200.00</td>
+                                <td style="padding: 0.5rem; color: #166534;">Paid</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.5rem;">Oct 15, 2024</td>
+                                <td style="padding: 0.5rem;">Basic</td>
+                                <td style="padding: 0.5rem;">$150.00</td>
+                                <td style="padding: 0.5rem; color: #166534;">Paid</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
@@ -483,52 +632,104 @@
         <!-- Admin Tab -->
         <div id="admin" class="tab-content admin-section">
             <div style="margin-bottom: 2rem;">
-                <h2 style="color: #1E3A8A; margin-bottom: 1rem;">System Administration</h2>
-                <p style="color: #6b7280;">Manage users, subscriptions, and system settings.</p>
+                <h2 style="color: #1E3A8A; margin-bottom: 1rem;">Admin Panel</h2>
+                <p style="color: #6b7280;">Manage subscribers, OptiSigns integration, and system settings.</p>
+                <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                    <a href="api-setup.html" class="btn">⚙️ OptiSigns Setup</a>
+                    <button class="btn btn-secondary" onclick="refreshScreenData()">🔄 Sync Screens</button>
+                </div>
             </div>
             
             <div class="stats-grid">
                 <div class="stat-card">
                     <h3>127</h3>
-                    <p>Total Users</p>
+                    <p>Total Subscribers</p>
                 </div>
                 <div class="stat-card">
                     <h3>89</h3>
-                    <p>Active Subscribers</p>
+                    <p>Active Campaigns</p>
                 </div>
                 <div class="stat-card">
                     <h3>$12,450</h3>
                     <p>Monthly Revenue</p>
                 </div>
                 <div class="stat-card">
-                    <h3>99.2%</h3>
-                    <p>System Uptime</p>
+                    <h3>156</h3>
+                    <p>OptiSigns Screens</p>
+                </div>
+            </div>
+
+            <div class="campaign-card">
+                <div class="campaign-header">
+                    <div class="campaign-title">Recent Subscriber Activity</div>
+                </div>
+                <ul style="list-style: none; padding: 0;">
+                    <li style="padding: 0.5rem 0; border-bottom: 1px solid #e5e7eb;">
+                        👤 New subscriber: John's Coffee Shop (Standard Plan)
+                    </li>
+                    <li style="padding: 0.5rem 0; border-bottom: 1px solid #e5e7eb;">
+                        📤 Ad uploaded: "Holiday Sale" by TechCorp (pending review)
+                    </li>
+                    <li style="padding: 0.5rem 0; border-bottom: 1px solid #e5e7eb;">
+                        ⬆️ Plan upgrade: Local Gym upgraded to Premium
+                    </li>
+                    <li style="padding: 0.5rem 0;">
+                        🔄 OptiSigns sync: 3 new screens added to network
+                    </li>
+                </ul>
+            </div>
+
+            <div class="campaign-card">
+                <div class="campaign-header">
+                    <div class="campaign-title">Pending Ad Reviews</div>
+                </div>
+                <div style="display: grid; gap: 1rem;">
+                    <div style="background: #f9fafb; padding: 1rem; border-radius: 6px; display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <strong>Holiday Special</strong> - Local Restaurant<br>
+                            <small style="color: #6b7280;">Uploaded 2 hours ago • 1920x1080 image</small>
+                        </div>
+                        <div style="display: flex; gap: 0.5rem;">
+                            <button class="btn" onclick="approveAd('holiday-special')">✅ Approve</button>
+                            <button class="btn btn-secondary" onclick="rejectAd('holiday-special')">❌ Reject</button>
+                        </div>
+                    </div>
+                    <div style="background: #f9fafb; padding: 1rem; border-radius: 6px; display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <strong>New Year Sale</strong> - Fashion Store<br>
+                            <small style="color: #6b7280;">Uploaded 5 hours ago • 30-second video</small>
+                        </div>
+                        <div style="display: flex; gap: 0.5rem;">
+                            <button class="btn" onclick="approveAd('new-year-sale')">✅ Approve</button>
+                            <button class="btn btn-secondary" onclick="rejectAd('new-year-sale')">❌ Reject</button>
+                        </div>
+                    </div>
                 </div>
             </div>
 
             <div class="pricing-grid">
                 <div class="pricing-card">
                     <h3>Basic Plan</h3>
-                    <div class="price">$150</div>
-                    <p>per month</p>
-                    <p style="margin: 1rem 0;">Up to 10 screens</p>
-                    <p style="color: #6b7280;">34 active subscribers</p>
+                    <div class="price">34</div>
+                    <p>subscribers</p>
+                    <p style="margin: 1rem 0;">$150/month each</p>
+                    <p style="color: #6b7280;">$5,100 monthly revenue</p>
                 </div>
                 
                 <div class="pricing-card featured">
                     <h3>Standard Plan</h3>
-                    <div class="price">$200</div>
-                    <p>per month</p>
-                    <p style="margin: 1rem 0;">Up to 15 screens</p>
-                    <p style="color: #6b7280;">42 active subscribers</p>
+                    <div class="price">42</div>
+                    <p>subscribers</p>
+                    <p style="margin: 1rem 0;">$200/month each</p>
+                    <p style="color: #6b7280;">$8,400 monthly revenue</p>
                 </div>
                 
                 <div class="pricing-card">
                     <h3>Premium Plan</h3>
-                    <div class="price">$300</div>
-                    <p>per month</p>
-                    <p style="margin: 1rem 0;">Up to 30 screens</p>
-                    <p style="color: #6b7280;">13 active subscribers</p>
+                    <div class="price">13</div>
+                    <p>subscribers</p>
+                    <p style="margin: 1rem 0;">$300/month each</p>
+                    <p style="color: #6b7280;">$3,900 monthly revenue</p>
                 </div>
             </div>
         </div>
@@ -539,50 +740,73 @@
         <div class="modal-content">
             <span class="close" onclick="hideModal('uploadModal')">&times;</span>
             <h2 style="color: #1E3A8A; margin-bottom: 1rem;">Upload New Ad</h2>
-            <form>
+            <p style="color: #6b7280; margin-bottom: 1.5rem;">Upload your ad and we'll handle getting it displayed on your selected screens. All ads are reviewed within 24-48 hours.</p>
+            <form id="uploadForm">
                 <div style="margin-bottom: 1rem;">
-                    <label style="display: block; margin-bottom: 0.5rem;">Ad Title</label>
-                    <input type="text" style="width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 6px;" placeholder="Enter ad title">
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Ad Title *</label>
+                    <input type="text" id="adTitle" style="width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 6px;" placeholder="e.g., Summer Sale 2024" required>
                 </div>
                 <div style="margin-bottom: 1rem;">
-                    <label style="display: block; margin-bottom: 0.5rem;">Upload File</label>
-                    <input type="file" style="width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 6px;">
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Upload File *</label>
+                    <input type="file" id="adFile" accept="image/*,video/*" style="width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 6px;" required>
+                    <small style="color: #6b7280;">Supported: JPG, PNG, MP4 • Max size: 50MB • Recommended: 1920x1080</small>
+                </div>
+                <div style="margin-bottom: 1rem;">
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Description (Optional)</label>
+                    <textarea id="adDescription" style="width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 6px; height: 80px;" placeholder="Brief description of your ad content"></textarea>
+                </div>
+                <div style="background: #eff6ff; padding: 1rem; border-radius: 6px; margin-bottom: 1rem;">
+                    <p style="color: #1E3A8A; font-size: 0.9rem; margin: 0;">
+                        📍 This ad will be displayed on your 8 selected screen locations once approved.
+                    </p>
                 </div>
                 <div style="display: flex; gap: 1rem;">
-                    <button type="button" class="btn">Upload Ad</button>
+                    <button type="button" class="btn" onclick="uploadNewAd()">📤 Upload Ad</button>
                     <button type="button" class="btn btn-secondary" onclick="hideModal('uploadModal')">Cancel</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <!-- Campaign Modal -->
-    <div id="campaignModal" class="modal">
+    <!-- Upgrade Modal -->
+    <div id="upgradeModal" class="modal">
         <div class="modal-content">
-            <span class="close" onclick="hideModal('campaignModal')">&times;</span>
-            <h2 style="color: #1E3A8A; margin-bottom: 1rem;">Create New Campaign</h2>
-            <form>
-                <div style="margin-bottom: 1rem;">
-                    <label style="display: block; margin-bottom: 0.5rem;">Campaign Name</label>
-                    <input type="text" style="width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 6px;" placeholder="Enter campaign name">
+            <span class="close" onclick="hideModal('upgradeModal')">&times;</span>
+            <h2 style="color: #1E3A8A; margin-bottom: 1rem;">Upgrade Your Plan</h2>
+            <p style="color: #6b7280; margin-bottom: 1.5rem;">Get access to more screens and premium locations.</p>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
+                <div style="border: 2px solid #e5e7eb; padding: 1rem; border-radius: 6px;">
+                    <h3 style="color: #1E3A8A;">Current: Standard</h3>
+                    <p style="font-size: 1.5rem; font-weight: bold; color: #1E3A8A;">$200/month</p>
+                    <ul style="color: #6b7280; font-size: 0.9rem;">
+                        <li>15 screens max</li>
+                        <li>Advanced analytics</li>
+                        <li>Priority support</li>
+                    </ul>
                 </div>
-                <div style="margin-bottom: 1rem;">
-                    <label style="display: block; margin-bottom: 0.5rem;">Budget (per month)</label>
-                    <input type="number" style="width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 6px;" placeholder="500">
+                <div style="border: 2px solid #1E3A8A; padding: 1rem; border-radius: 6px;">
+                    <h3 style="color: #1E3A8A;">Upgrade to: Premium</h3>
+                    <p style="font-size: 1.5rem; font-weight: bold; color: #1E3A8A;">$300/month</p>
+                    <ul style="color: #6b7280; font-size: 0.9rem;">
+                        <li>30 screens max</li>
+                        <li>Real-time analytics</li>
+                        <li>Phone support</li>
+                        <li>Custom locations</li>
+                    </ul>
                 </div>
-                <div style="margin-bottom: 1rem;">
-                    <label style="display: block; margin-bottom: 0.5rem;">Target Screens</label>
-                    <select style="width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 6px;">
-                        <option>Downtown Mall (5 screens)</option>
-                        <option>Coffee Shop Chain (15 screens)</option>
-                        <option>Medical Center (3 screens)</option>
-                    </select>
-                </div>
-                <div style="display: flex; gap: 1rem;">
-                    <button type="button" class="btn">Create Campaign</button>
-                    <button type="button" class="btn btn-secondary" onclick="hideModal('campaignModal')">Cancel</button>
-                </div>
-            </form>
+            </div>
+            
+            <div style="background: #eff6ff; padding: 1rem; border-radius: 6px; margin-bottom: 1rem;">
+                <p style="color: #1E3A8A; font-size: 0.9rem; margin: 0;">
+                    💡 Upgrade now and get prorated billing. You'll only pay the difference for the remaining days in your current billing cycle.
+                </p>
+            </div>
+            
+            <div style="display: flex; gap: 1rem;">
+                <button type="button" class="btn" onclick="processUpgrade()">⬆️ Upgrade to Premium</button>
+                <button type="button" class="btn btn-secondary" onclick="hideModal('upgradeModal')">Cancel</button>
+            </div>
         </div>
     </div>
 
@@ -597,6 +821,117 @@
         if (userRole === 'Administrator') {
             document.getElementById('adminTab').classList.add('show');
             document.querySelector('.admin-section').classList.add('show');
+        }
+
+        // Update dashboard content based on user role
+        if (userRole === 'Subscriber') {
+            // Hide API setup link for subscribers
+            const apiSetupLink = document.querySelector('a[href="api-setup.html"]');
+            if (apiSetupLink) {
+                apiSetupLink.style.display = 'none';
+            }
+        }
+
+        // Subscriber functions
+        function viewAnalytics() {
+            alert('📊 Analytics Dashboard\n\nYour ads this month:\n• Total views: 12,400\n• Click-through rate: 2.8%\n• Top performing location: Downtown Mall\n• Best performing ad: Summer Sale Banner');
+        }
+
+        function viewAdAnalytics(adId) {
+            const adData = {
+                'summer-sale': {
+                    name: 'Summer Sale Banner',
+                    views: 3247,
+                    ctr: '3.2%',
+                    topLocation: 'Downtown Mall'
+                },
+                'product-launch': {
+                    name: 'Product Launch Video',
+                    views: 1892,
+                    ctr: '2.1%',
+                    topLocation: 'Coffee Shop Chain'
+                }
+            };
+            
+            const ad = adData[adId];
+            if (ad) {
+                alert(`📊 ${ad.name} Analytics\n\n• Total views: ${ad.views}\n• Click-through rate: ${ad.ctr}\n• Top location: ${ad.topLocation}\n• Status: Active on 8 screens`);
+            }
+        }
+
+        function pauseAd(adId) {
+            if (confirm('Are you sure you want to pause this ad? It will stop displaying on all screens.')) {
+                alert('✅ Ad paused successfully. It will stop displaying within 15 minutes.');
+            }
+        }
+
+        function toggleLocation(locationId) {
+            const locationData = {
+                'downtown-mall': { name: 'Downtown Mall', cost: 45, selected: true },
+                'metro-station': { name: 'Metro Station', cost: 35, selected: false },
+                'coffee-shops': { name: 'Coffee Shop Chain', cost: 25, selected: true },
+                'medical-center': { name: 'Medical Center', cost: 30, selected: false },
+                'university': { name: 'University Campus', cost: 20, selected: true },
+                'shopping-center': { name: 'Shopping Center', cost: 40, selected: true }
+            };
+            
+            const location = locationData[locationId];
+            if (location) {
+                const action = location.selected ? 'remove' : 'add';
+                const message = location.selected 
+                    ? `Remove ${location.name} from your selected locations?\n\nThis will save $${location.cost}/month.`
+                    : `Add ${location.name} to your selected locations?\n\nThis will cost $${location.cost}/month.`;
+                
+                if (confirm(message)) {
+                    alert(`✅ Location ${action === 'add' ? 'added' : 'removed'} successfully. Changes will take effect on your next billing cycle.`);
+                }
+            }
+        }
+
+        function saveLocationSelection() {
+            alert('✅ Location selection saved! Changes will be reflected in your next billing cycle.');
+        }
+
+        function upgradeToPremium() {
+            window.location.href = 'payment.html?plan=premium&upgrade=true';
+        }
+
+        function processUpgrade() {
+            alert('🚀 Redirecting to secure payment processing...');
+            setTimeout(() => {
+                window.location.href = 'payment.html?plan=premium&upgrade=true';
+            }, 1000);
+        }
+
+        function updatePayment() {
+            alert('💳 Redirecting to secure payment update...');
+            setTimeout(() => {
+                window.location.href = 'payment.html?action=update';
+            }, 1000);
+        }
+
+        // Admin functions (only visible to admins)
+        function refreshScreenData() {
+            if (userRole === 'Administrator') {
+                alert('🔄 Syncing with OptiSigns...\n\nFound 3 new screens\nUpdated 2 screen statuses\nSync completed successfully');
+            }
+        }
+
+        function approveAd(adId) {
+            if (userRole === 'Administrator') {
+                if (confirm('Approve this ad for display?')) {
+                    alert('✅ Ad approved and will be live within 15 minutes.');
+                }
+            }
+        }
+
+        function rejectAd(adId) {
+            if (userRole === 'Administrator') {
+                const reason = prompt('Reason for rejection (will be sent to subscriber):');
+                if (reason) {
+                    alert('❌ Ad rejected. Subscriber has been notified.');
+                }
+            }
         }
 
         function showTab(tabName) {
@@ -617,8 +952,24 @@
             event.target.classList.add('active');
         }
 
-        function selectScreen(screenName) {
-            alert(`Selected: ${screenName}\n\nThis would normally open the campaign creation flow to deploy ads to this screen location.`);
+        function uploadNewAd() {
+            const title = document.getElementById('adTitle').value;
+            const file = document.getElementById('adFile').files[0];
+            const description = document.getElementById('adDescription').value;
+            
+            if (!title || !file) {
+                alert('Please provide both a title and file for your ad.');
+                return;
+            }
+            
+            // Simulate upload process
+            alert('📤 Uploading your ad...');
+            
+            setTimeout(() => {
+                alert(`✅ "${title}" uploaded successfully!\n\nYour ad is now under review and will be live within 24-48 hours. You'll receive an email notification once it's approved.`);
+                hideModal('uploadModal');
+                document.getElementById('uploadForm').reset();
+            }, 2000);
         }
 
         function showModal(modalId) {
@@ -628,6 +979,8 @@
         function hideModal(modalId) {
             document.getElementById(modalId).style.display = 'none';
         }
+
+
 
         // Close modal when clicking outside
         window.onclick = function(event) {

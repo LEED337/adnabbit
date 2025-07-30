@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Setup - AdNabbit</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f8f9fa;
+            color: #333;
+        }
+        .header {
+            background: #1E3A8A;
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .header-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .logo-icon {
+            margin-right: 10px;
+            font-size: 1.8rem;
+        }
+        .container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 0 20px;
+        }
+        .setup-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #1E3A8A;
+        }
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 1rem;
+        }
+        .form-group textarea {
+            height: 100px;
+            resize: vertical;
+        }
+        .btn {
+            background: #1E3A8A;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.3s;
+            margin-right: 1rem;
+        }
+        .btn:hover {
+            background: #1e40af;
+        }
+        .btn-secondary {
+            background: #6b7280;
+        }
+        .btn-secondary:hover {
+            background: #4b5563;
+        }
+        .status-indicator {
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            margin-top: 1rem;
+            font-weight: 600;
+        }
+        .status-success {
+            background: #dcfce7;
+            color: #166534;
+            border: 1px solid #bbf7d0;
+        }
+        .status-error {
+            background: #fef2f2;
+            color: #dc2626;
+            border: 1px solid #fecaca;
+        }
+        .status-warning {
+            background: #fef3c7;
+            color: #92400e;
+            border: 1px solid #fed7aa;
+        }
+        .info-box {
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            border-radius: 6px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .info-box h3 {
+            color: #1E3A8A;
+            margin-bottom: 0.5rem;
+        }
+        .info-box p {
+            color: #374151;
+            margin-bottom: 0.5rem;
+        }
+        .code {
+            background: #f3f4f6;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <span class="logo-icon">📺</span>
+                AdNabbit - API Setup
+            </div>
+            <a href="dashboard.html" style="color: white; text-decoration: none;">← Back to Dashboard</a>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="info-box">
+            <h3>🔗 OptiSigns Integration Setup</h3>
+            <p>Connect your AdNabbit platform to OptiSigns digital signage network for real-time screen management and content deployment.</p>
+            <p><strong>What you'll need:</strong></p>
+            <ul style="margin-left: 1rem; color: #374151;">
+                <li>OptiSigns account with API access</li>
+                <li>API key from your OptiSigns dashboard</li>
+                <li>Screen IDs for your target displays</li>
+            </ul>
+        </div>
+
+        <div class="setup-card">
+            <h2 style="color: #1E3A8A; margin-bottom: 1.5rem;">API Configuration</h2>
+            
+            <div class="form-group">
+                <label for="apiKey">OptiSigns API Key</label>
+                <input type="password" id="apiKey" placeholder="Enter your OptiSigns API key">
+                <small style="color: #6b7280;">Find this in your OptiSigns account settings under "API Access"</small>
+            </div>
+
+            <div class="form-group">
+                <label for="baseUrl">API Base URL (Optional)</label>
+                <input type="url" id="baseUrl" value="https://api.optisigns.com/v2" placeholder="https://api.optisigns.com/v2">
+                <small style="color: #6b7280;">Leave default unless using a custom OptiSigns instance</small>
+            </div>
+
+            <div style="margin-bottom: 1.5rem;">
+                <button class="btn" onclick="testConnection()">🔍 Test Connection</button>
+                <button class="btn" onclick="saveConfiguration()">💾 Save Configuration</button>
+                <button class="btn btn-secondary" onclick="clearConfiguration()">🗑️ Clear Settings</button>
+            </div>
+
+            <div id="connectionStatus"></div>
+        </div>
+
+        <div class="setup-card">
+            <h2 style="color: #1E3A8A; margin-bottom: 1.5rem;">Account Information</h2>
+            <div id="accountInfo">
+                <p style="color: #6b7280;">Configure your API key above and test the connection to view account details.</p>
+            </div>
+        </div>
+
+        <div class="setup-card">
+            <h2 style="color: #1E3A8A; margin-bottom: 1.5rem;">Available Screens</h2>
+            <div id="screensList">
+                <p style="color: #6b7280;">Test your API connection to view available screens.</p>
+            </div>
+        </div>
+
+        <div class="info-box">
+            <h3>🛡️ Security Notes</h3>
+            <p>Your API key is stored locally in your browser and is never sent to AdNabbit servers. It's used only for direct communication with OptiSigns.</p>
+            <p>For production use, ensure your OptiSigns API key has appropriate permissions and consider using environment-specific keys.</p>
+        </div>
+    </div>
+
+    <script src="js/optisigns-api.js"></script>
+    <script>
+        const optiSignsAPI = new OptiSignsAPI();
+
+        // Load existing configuration on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadExistingConfig();
+        });
+
+        function loadExistingConfig() {
+            const savedApiKey = localStorage.getItem('optisigns_api_key');
+            const savedBaseUrl = localStorage.getItem('optisigns_base_url');
+
+            if (savedApiKey && savedApiKey !== 'demo_key') {
+                document.getElementById('apiKey').value = savedApiKey;
+            }
+
+            if (savedBaseUrl) {
+                document.getElementById('baseUrl').value = savedBaseUrl;
+            }
+
+            // Show current status if API key exists
+            if (savedApiKey && savedApiKey !== 'demo_key') {
+                showStatus('Configuration loaded from previous session', 'warning');
+            }
+        }
+
+        async function testConnection() {
+            const apiKey = document.getElementById('apiKey').value;
+            const baseUrl = document.getElementById('baseUrl').value;
+
+            if (!apiKey) {
+                showStatus('Please enter an API key', 'error');
+                return;
+            }
+
+            showStatus('Testing connection...', 'warning');
+
+            // Update API configuration
+            optiSignsAPI.setApiKey(apiKey);
+            if (baseUrl) {
+                optiSignsAPI.baseUrl = baseUrl;
+                localStorage.setItem('optisigns_base_url', baseUrl);
+            }
+
+            try {
+                const result = await optiSignsAPI.testConnection();
+
+                if (result.success) {
+                    showStatus('✅ Connection successful!', 'success');
+                    await loadAccountInfo();
+                    await loadScreensList();
+                } else {
+                    showStatus(`❌ Connection failed: ${result.error}`, 'error');
+                    showDemoMode();
+                }
+            } catch (error) {
+                showStatus(`❌ Connection error: ${error.message}`, 'error');
+                showDemoMode();
+            }
+        }
+
+        function saveConfiguration() {
+            const apiKey = document.getElementById('apiKey').value;
+            const baseUrl = document.getElementById('baseUrl').value;
+
+            if (!apiKey) {
+                showStatus('Please enter an API key before saving', 'error');
+                return;
+            }
+
+            optiSignsAPI.setApiKey(apiKey);
+            if (baseUrl) {
+                localStorage.setItem('optisigns_base_url', baseUrl);
+            }
+
+            showStatus('✅ Configuration saved successfully!', 'success');
+        }
+
+        function clearConfiguration() {
+            if (confirm('Are you sure you want to clear all API configuration?')) {
+                localStorage.removeItem('optisigns_api_key');
+                localStorage.removeItem('optisigns_base_url');
+                
+                document.getElementById('apiKey').value = '';
+                document.getElementById('baseUrl').value = 'https://api.optisigns.com/v2';
+                document.getElementById('accountInfo').innerHTML = '<p style="color: #6b7280;">Configure your API key above and test the connection to view account details.</p>';
+                document.getElementById('screensList').innerHTML = '<p style="color: #6b7280;">Test your API connection to view available screens.</p>';
+                
+                showStatus('Configuration cleared', 'warning');
+            }
+        }
+
+        async function loadAccountInfo() {
+            try {
+                const accountData = await optiSignsAPI.getAccountInfo();
+                
+                if (accountData && accountData.user) {
+                    const user = accountData.user;
+                    document.getElementById('accountInfo').innerHTML = `
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                            <div>
+                                <strong>Account:</strong> ${user.name}<br>
+                                <strong>Email:</strong> ${user.email}<br>
+                                <strong>Plan:</strong> ${user.plan}
+                            </div>
+                            <div>
+                                <strong>Screens:</strong> ${user.screens_used}/${user.screens_limit}<br>
+                                <strong>Storage:</strong> ${user.storage_used}/${user.storage_limit}<br>
+                                <strong>Status:</strong> <span style="color: #166534;">Active</span>
+                            </div>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                console.error('Error loading account info:', error);
+            }
+        }
+
+        async function loadScreensList() {
+            try {
+                const screensData = await optiSignsAPI.getScreens();
+                
+                if (screensData && screensData.screens) {
+                    const screensList = screensData.screens.map(screen => `
+                        <div style="background: #f9fafb; padding: 1rem; border-radius: 6px; margin-bottom: 0.5rem;">
+                            <strong>${screen.name}</strong> - ${screen.location}<br>
+                            <small style="color: #6b7280;">
+                                Status: <span style="color: ${screen.status === 'online' ? '#166534' : '#dc2626'}">${screen.status}</span> | 
+                                Resolution: ${screen.resolution} | 
+                                ID: <code class="code">${screen.id}</code>
+                            </small>
+                        </div>
+                    `).join('');
+                    
+                    document.getElementById('screensList').innerHTML = screensList;
+                } else {
+                    document.getElementById('screensList').innerHTML = '<p style="color: #6b7280;">No screens found in your account.</p>';
+                }
+            } catch (error) {
+                console.error('Error loading screens:', error);
+            }
+        }
+
+        function showDemoMode() {
+            document.getElementById('accountInfo').innerHTML = `
+                <div style="background: #fef3c7; padding: 1rem; border-radius: 6px; border: 1px solid #fed7aa;">
+                    <strong>🎭 Demo Mode Active</strong><br>
+                    Using mock data for demonstration. Configure a valid API key to connect to real OptiSigns data.
+                </div>
+            `;
+        }
+
+        function showStatus(message, type) {
+            const statusDiv = document.getElementById('connectionStatus');
+            statusDiv.innerHTML = `<div class="status-indicator status-${type}">${message}</div>`;
+        }
+    </script>
+</body>
+</html>
