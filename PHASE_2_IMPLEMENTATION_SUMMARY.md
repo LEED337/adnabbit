@@ -1,7 +1,7 @@
 # Phase 2 External Integrations - Implementation Summary
 
 ## Overview
-Successfully implemented Phase 2 of the MustStash app, focusing on external integrations including bank connectivity simulation and price comparison features.
+Successfully implemented Phase 2 of the AdNabbit app, focusing on OptiSigns integration and digital screen advertising platform features.
 
 ## ✅ Completed Features
 
