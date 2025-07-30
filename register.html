@@ -309,14 +309,26 @@
                 return false;
             }
 
-            // Simulate account creation
-            console.log('Creating account:', {
+            // Store user data in browser local storage for demo
+            const userData = {
                 firstName,
                 lastName,
                 email,
                 company,
-                plan
-            });
+                plan,
+                registrationDate: new Date().toISOString(),
+                userId: 'user_' + Date.now()
+            };
+            
+            // Save to local storage
+            localStorage.setItem('adnabbit_user_' + email, JSON.stringify(userData));
+            
+            // Also save to a users list
+            const existingUsers = JSON.parse(localStorage.getItem('adnabbit_users') || '[]');
+            existingUsers.push(userData);
+            localStorage.setItem('adnabbit_users', JSON.stringify(existingUsers));
+            
+            console.log('Account created and stored locally:', userData);
 
             // Show success message
             document.getElementById('registerForm').style.display = 'none';
