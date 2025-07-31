@@ -6,6 +6,8 @@
   "scripts": {
     "start": "node stripe-service.js",
     "dev": "nodemon stripe-service.js",
+    "setup": "node quick-start.js",
+    "prices": "node get-price-ids.js",
     "test": "jest"
   },
   "dependencies": {

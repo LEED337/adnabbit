@@ -12,25 +12,28 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Plan configurations matching frontend
+// Plan configurations with your actual product and price IDs
 const PLANS = {
     basic: {
         name: 'Basic Plan',
         price: 15000, // $150.00 in cents
         screens: 10,
-        priceId: 'price_basic_monthly' // Replace with actual Stripe Price ID
+        productId: 'prod_SmM5PN69uNah4f',
+        priceId: process.env.STRIPE_PRICE_BASIC || 'price_1RqnNGLmvO6Fl5tLfMBqACWI'
     },
     standard: {
         name: 'Standard Plan',
         price: 20000, // $200.00 in cents
         screens: 15,
-        priceId: 'price_standard_monthly' // Replace with actual Stripe Price ID
+        productId: 'prod_SmM5CHmp3dRMaD',
+        priceId: process.env.STRIPE_PRICE_STANDARD || 'price_1RqnNeLmvO6Fl5tLoTcNTNe5'
     },
     premium: {
         name: 'Premium Plan',
         price: 30000, // $300.00 in cents
         screens: 30,
-        priceId: 'price_premium_monthly' // Replace with actual Stripe Price ID
+        productId: 'prod_SmM6d8dDSi1h6B',
+        priceId: process.env.STRIPE_PRICE_PREMIUM || 'price_1RqnNtLmvO6Fl5tLeOcb6VK3'
     }
 };
 
