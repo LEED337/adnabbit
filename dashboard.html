@@ -1156,9 +1156,9 @@
             // Initialize the map centered on Salt Lake City
             map = L.map('screenMap').setView([40.7608, -111.8910], 11);
             
-            // Add OpenStreetMap tiles (reliable, free, no authentication required)
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '© OpenStreetMap contributors',
+            // Try Stadia Stamen Terrain with simpler format
+            L.tileLayer('https://tiles.stadiamaps.com/tiles/stamen_terrain/{z}/{x}/{y}.png', {
+                attribution: '© Stadia Maps © Stamen Design © OpenMapTiles © OpenStreetMap contributors',
                 maxZoom: 18,
             }).addTo(map);
             
