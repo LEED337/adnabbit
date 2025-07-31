@@ -740,110 +740,259 @@
 
         <!-- Subscription Tab -->
         <div id="subscription" class="tab-content">
-            <div style="margin-bottom: 2rem;">
-                <h2 style="color: #1E3A8A; margin-bottom: 1rem;">Subscription Management</h2>
-                <p style="color: #6b7280;">Manage your AdNabbit subscription and billing.</p>
-            </div>
+            <!-- Subscriber View -->
+            <div id="subscriberSubscriptionView">
+                <div style="margin-bottom: 2rem;">
+                    <h2 style="color: #1E3A8A; margin-bottom: 1rem;">Subscription Management</h2>
+                    <p style="color: #6b7280;">Manage your AdNabbit subscription and billing.</p>
+                </div>
 
-            <div class="campaign-card">
-                <div class="campaign-header">
-                    <div class="campaign-title">Current Plan: Standard</div>
-                    <span class="campaign-status status-active">Active</span>
-                </div>
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1rem;">
-                    <div>
-                        <strong>Monthly Cost:</strong> $200<br>
-                        <strong>Screen Limit:</strong> 15 screens<br>
-                        <strong>Currently Using:</strong> 8 screens
+                <div class="campaign-card">
+                    <div class="campaign-header">
+                        <div class="campaign-title">Current Plan: Standard</div>
+                        <span class="campaign-status status-active">Active</span>
                     </div>
-                    <div>
-                        <strong>Next Billing:</strong> Jan 15, 2025<br>
-                        <strong>Payment Method:</strong> •••• 4242<br>
-                        <strong>Status:</strong> <span style="color: #166534;">Paid</span>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1rem;">
+                        <div>
+                            <strong>Monthly Cost:</strong> $200<br>
+                            <strong>Screen Limit:</strong> 15 screens<br>
+                            <strong>Currently Using:</strong> 8 screens
+                        </div>
+                        <div>
+                            <strong>Next Billing:</strong> Jan 15, 2025<br>
+                            <strong>Payment Method:</strong> •••• 4242<br>
+                            <strong>Status:</strong> <span style="color: #166534;">Paid</span>
+                        </div>
                     </div>
-                </div>
-                <div style="display: flex; gap: 1rem;">
-                    <button class="btn" onclick="showModal('upgradeModal')">⬆️ Upgrade Plan</button>
-                    <button class="btn btn-secondary" onclick="updatePayment()">💳 Update Payment</button>
-                </div>
-            </div>
-            
-            <div class="pricing-grid">
-                <div class="pricing-card">
-                    <h3>Basic Plan</h3>
-                    <div class="price">$150</div>
-                    <p>per month</p>
-                    <ul style="text-align: left; margin: 1rem 0; color: #6b7280;">
-                        <li>Up to 10 screens</li>
-                        <li>Basic analytics</li>
-                        <li>Email support</li>
-                        <li>Standard locations</li>
-                    </ul>
-                    <button class="btn btn-secondary" disabled>Current Plan Below</button>
+                    <div style="display: flex; gap: 1rem;">
+                        <button class="btn" onclick="showModal('upgradeModal')">⬆️ Upgrade Plan</button>
+                        <button class="btn btn-secondary" onclick="updatePayment()">💳 Update Payment</button>
+                    </div>
                 </div>
                 
-                <div class="pricing-card featured">
-                    <h3>Standard Plan</h3>
-                    <div class="price">$200</div>
-                    <p>per month</p>
-                    <ul style="text-align: left; margin: 1rem 0; color: #6b7280;">
-                        <li>Up to 15 screens</li>
-                        <li>Advanced analytics</li>
-                        <li>Priority support</li>
-                        <li>Premium locations</li>
-                    </ul>
-                    <button class="btn" style="background: #166534;" disabled>✅ Current Plan</button>
+                <div class="pricing-grid">
+                    <div class="pricing-card">
+                        <h3>Basic Plan</h3>
+                        <div class="price">$150</div>
+                        <p>per month</p>
+                        <ul style="text-align: left; margin: 1rem 0; color: #6b7280;">
+                            <li>Up to 10 screens</li>
+                            <li>Basic analytics</li>
+                            <li>Email support</li>
+                            <li>Standard locations</li>
+                        </ul>
+                        <button class="btn btn-secondary" disabled>Current Plan Below</button>
+                    </div>
+                    
+                    <div class="pricing-card featured">
+                        <h3>Standard Plan</h3>
+                        <div class="price">$200</div>
+                        <p>per month</p>
+                        <ul style="text-align: left; margin: 1rem 0; color: #6b7280;">
+                            <li>Up to 15 screens</li>
+                            <li>Advanced analytics</li>
+                            <li>Priority support</li>
+                            <li>Premium locations</li>
+                        </ul>
+                        <button class="btn" style="background: #166534;" disabled>✅ Current Plan</button>
+                    </div>
+                    
+                    <div class="pricing-card">
+                        <h3>Premium Plan</h3>
+                        <div class="price">$300</div>
+                        <p>per month</p>
+                        <ul style="text-align: left; margin: 1rem 0; color: #6b7280;">
+                            <li>Up to 30 screens</li>
+                            <li>Real-time analytics</li>
+                            <li>Phone support</li>
+                            <li>All locations + custom</li>
+                        </ul>
+                        <button class="btn" onclick="upgradeToPremium()">⬆️ Upgrade</button>
+                    </div>
                 </div>
-                
-                <div class="pricing-card">
-                    <h3>Premium Plan</h3>
-                    <div class="price">$300</div>
-                    <p>per month</p>
-                    <ul style="text-align: left; margin: 1rem 0; color: #6b7280;">
-                        <li>Up to 30 screens</li>
-                        <li>Real-time analytics</li>
-                        <li>Phone support</li>
-                        <li>All locations + custom</li>
-                    </ul>
-                    <button class="btn" onclick="upgradeToPremium()">⬆️ Upgrade</button>
+
+                <div class="campaign-card">
+                    <div class="campaign-header">
+                        <div class="campaign-title">Billing History</div>
+                    </div>
+                    <div style="overflow-x: auto;">
+                        <table style="width: 100%; border-collapse: collapse;">
+                            <thead>
+                                <tr style="border-bottom: 1px solid #e5e7eb;">
+                                    <th style="text-align: left; padding: 0.5rem; color: #1E3A8A;">Date</th>
+                                    <th style="text-align: left; padding: 0.5rem; color: #1E3A8A;">Plan</th>
+                                    <th style="text-align: left; padding: 0.5rem; color: #1E3A8A;">Amount</th>
+                                    <th style="text-align: left; padding: 0.5rem; color: #1E3A8A;">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="border-bottom: 1px solid #e5e7eb;">
+                                    <td style="padding: 0.5rem;">Dec 15, 2024</td>
+                                    <td style="padding: 0.5rem;">Standard</td>
+                                    <td style="padding: 0.5rem;">$200.00</td>
+                                    <td style="padding: 0.5rem; color: #166534;">Paid</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid #e5e7eb;">
+                                    <td style="padding: 0.5rem;">Nov 15, 2024</td>
+                                    <td style="padding: 0.5rem;">Standard</td>
+                                    <td style="padding: 0.5rem;">$200.00</td>
+                                    <td style="padding: 0.5rem; color: #166534;">Paid</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.5rem;">Oct 15, 2024</td>
+                                    <td style="padding: 0.5rem;">Basic</td>
+                                    <td style="padding: 0.5rem;">$150.00</td>
+                                    <td style="padding: 0.5rem; color: #166534;">Paid</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
 
-            <div class="campaign-card">
-                <div class="campaign-header">
-                    <div class="campaign-title">Billing History</div>
+            <!-- Administrator View -->
+            <div id="adminSubscriptionView" style="display: none;">
+                <div style="margin-bottom: 2rem;">
+                    <h2 style="color: #1E3A8A; margin-bottom: 1rem;">Subscriber Management</h2>
+                    <p style="color: #6b7280;">Manage all AdNabbit subscribers, payments, and screen allocations.</p>
+                    <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                        <button class="btn" onclick="exportSubscriberData()">📊 Export Data</button>
+                        <button class="btn btn-secondary" onclick="refreshSubscriberData()">🔄 Refresh</button>
+                    </div>
                 </div>
-                <div style="overflow-x: auto;">
-                    <table style="width: 100%; border-collapse: collapse;">
-                        <thead>
-                            <tr style="border-bottom: 1px solid #e5e7eb;">
-                                <th style="text-align: left; padding: 0.5rem; color: #1E3A8A;">Date</th>
-                                <th style="text-align: left; padding: 0.5rem; color: #1E3A8A;">Plan</th>
-                                <th style="text-align: left; padding: 0.5rem; color: #1E3A8A;">Amount</th>
-                                <th style="text-align: left; padding: 0.5rem; color: #1E3A8A;">Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr style="border-bottom: 1px solid #e5e7eb;">
-                                <td style="padding: 0.5rem;">Dec 15, 2024</td>
-                                <td style="padding: 0.5rem;">Standard</td>
-                                <td style="padding: 0.5rem;">$200.00</td>
-                                <td style="padding: 0.5rem; color: #166534;">Paid</td>
-                            </tr>
-                            <tr style="border-bottom: 1px solid #e5e7eb;">
-                                <td style="padding: 0.5rem;">Nov 15, 2024</td>
-                                <td style="padding: 0.5rem;">Standard</td>
-                                <td style="padding: 0.5rem;">$200.00</td>
-                                <td style="padding: 0.5rem; color: #166534;">Paid</td>
-                            </tr>
-                            <tr>
-                                <td style="padding: 0.5rem;">Oct 15, 2024</td>
-                                <td style="padding: 0.5rem;">Basic</td>
-                                <td style="padding: 0.5rem;">$150.00</td>
-                                <td style="padding: 0.5rem; color: #166534;">Paid</td>
-                            </tr>
-                        </tbody>
-                    </table>
+
+                <!-- Revenue Overview -->
+                <div class="stats-grid" style="margin-bottom: 2rem;">
+                    <div class="stat-card">
+                        <h3>$17,450</h3>
+                        <p>Monthly Recurring Revenue</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>89</h3>
+                        <p>Active Subscribers</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>$195</h3>
+                        <p>Average Revenue Per User</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>94.2%</h3>
+                        <p>Payment Success Rate</p>
+                    </div>
+                </div>
+
+                <!-- Subscriber List -->
+                <div class="campaign-card">
+                    <div class="campaign-header">
+                        <div class="campaign-title">All Subscribers</div>
+                        <div style="display: flex; gap: 0.5rem;">
+                            <select style="padding: 0.5rem; border: 1px solid #d1d5db; border-radius: 4px;">
+                                <option>All Plans</option>
+                                <option>Basic</option>
+                                <option>Standard</option>
+                                <option>Premium</option>
+                            </select>
+                            <select style="padding: 0.5rem; border: 1px solid #d1d5db; border-radius: 4px;">
+                                <option>All Status</option>
+                                <option>Active</option>
+                                <option>Past Due</option>
+                                <option>Cancelled</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div style="overflow-x: auto;">
+                        <table style="width: 100%; border-collapse: collapse;">
+                            <thead>
+                                <tr style="border-bottom: 2px solid #e5e7eb;">
+                                    <th style="text-align: left; padding: 0.75rem; color: #1E3A8A;">Customer</th>
+                                    <th style="text-align: left; padding: 0.75rem; color: #1E3A8A;">Plan</th>
+                                    <th style="text-align: left; padding: 0.75rem; color: #1E3A8A;">MRR</th>
+                                    <th style="text-align: left; padding: 0.75rem; color: #1E3A8A;">Screens</th>
+                                    <th style="text-align: left; padding: 0.75rem; color: #1E3A8A;">Status</th>
+                                    <th style="text-align: left; padding: 0.75rem; color: #1E3A8A;">Next Billing</th>
+                                    <th style="text-align: left; padding: 0.75rem; color: #1E3A8A;">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="subscriberTableBody">
+                                <!-- Will be populated by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Payment Issues -->
+                <div class="campaign-card">
+                    <div class="campaign-header">
+                        <div class="campaign-title">Payment Issues</div>
+                        <span style="background: #fef3c7; color: #92400e; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.8rem;">3 Issues</span>
+                    </div>
+                    <div style="display: grid; gap: 1rem;">
+                        <div style="background: #fef2f2; border-left: 4px solid #ef4444; padding: 1rem; border-radius: 6px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <div>
+                                    <strong>TechCorp Solutions</strong> - Premium Plan<br>
+                                    <small style="color: #6b7280;">Payment failed: Card declined • Last attempt: 2 days ago</small>
+                                </div>
+                                <div style="display: flex; gap: 0.5rem;">
+                                    <button class="btn btn-secondary" onclick="retryPayment('sub_techcorp')">🔄 Retry</button>
+                                    <button class="btn btn-secondary" onclick="contactCustomer('sub_techcorp')">📧 Contact</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="background: #fef3c7; border-left: 4px solid #f59e0b; padding: 1rem; border-radius: 6px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <div>
+                                    <strong>Local Coffee Shop</strong> - Standard Plan<br>
+                                    <small style="color: #6b7280;">Card expires soon: 02/25 • Auto-renewal in 5 days</small>
+                                </div>
+                                <div style="display: flex; gap: 0.5rem;">
+                                    <button class="btn btn-secondary" onclick="sendCardUpdateReminder('sub_coffee')">📧 Remind</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Screen Utilization -->
+                <div class="campaign-card">
+                    <div class="campaign-header">
+                        <div class="campaign-title">Screen Network Utilization</div>
+                    </div>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
+                        <div style="background: #f9fafb; padding: 1rem; border-radius: 6px;">
+                            <h4 style="color: #1E3A8A; margin-bottom: 0.5rem;">Downtown Mall</h4>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                <span>Capacity:</span>
+                                <span><strong>18/30</strong></span>
+                            </div>
+                            <div style="background: #e5e7eb; height: 8px; border-radius: 4px; overflow: hidden;">
+                                <div style="background: #3b82f6; width: 60%; height: 100%;"></div>
+                            </div>
+                            <small style="color: #6b7280;">Revenue: $810/month</small>
+                        </div>
+                        <div style="background: #f9fafb; padding: 1rem; border-radius: 6px;">
+                            <h4 style="color: #1E3A8A; margin-bottom: 0.5rem;">Coffee Shop Chain</h4>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                <span>Capacity:</span>
+                                <span><strong>22/30</strong></span>
+                            </div>
+                            <div style="background: #e5e7eb; height: 8px; border-radius: 4px; overflow: hidden;">
+                                <div style="background: #f59e0b; width: 73%; height: 100%;"></div>
+                            </div>
+                            <small style="color: #6b7280;">Revenue: $550/month</small>
+                        </div>
+                        <div style="background: #f9fafb; padding: 1rem; border-radius: 6px;">
+                            <h4 style="color: #1E3A8A; margin-bottom: 0.5rem;">University Campus</h4>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                <span>Capacity:</span>
+                                <span><strong>15/30</strong></span>
+                            </div>
+                            <div style="background: #e5e7eb; height: 8px; border-radius: 4px; overflow: hidden;">
+                                <div style="background: #10b981; width: 50%; height: 100%;"></div>
+                            </div>
+                            <small style="color: #6b7280;">Revenue: $300/month</small>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1040,10 +1189,18 @@
         if (userRole === 'Administrator') {
             document.getElementById('adminTab').classList.add('show');
             document.querySelector('.admin-section').classList.add('show');
-        }
-
-        // Update dashboard content based on user role
-        if (userRole === 'Subscriber') {
+            
+            // Show admin subscription view
+            document.getElementById('adminSubscriptionView').style.display = 'block';
+            document.getElementById('subscriberSubscriptionView').style.display = 'none';
+            
+            // Load admin data
+            loadSubscriberData();
+        } else {
+            // Show subscriber subscription view
+            document.getElementById('adminSubscriptionView').style.display = 'none';
+            document.getElementById('subscriberSubscriptionView').style.display = 'block';
+            
             // Hide API setup link for subscribers
             const apiSetupLink = document.querySelector('a[href="api-setup.html"]');
             if (apiSetupLink) {
@@ -1452,6 +1609,175 @@
                 if (reason) {
                     alert('❌ Ad rejected. Subscriber has been notified.');
                 }
+            }
+        }
+
+        // Admin subscription management functions
+        function loadSubscriberData() {
+            const subscribers = [
+                {
+                    id: 'sub_001',
+                    name: 'TechCorp Solutions',
+                    email: 'billing@techcorp.com',
+                    plan: 'Premium',
+                    mrr: 300,
+                    screens: '12/30',
+                    status: 'Active',
+                    nextBilling: '2025-01-15',
+                    paymentStatus: 'current'
+                },
+                {
+                    id: 'sub_002',
+                    name: 'Local Coffee Shop',
+                    email: 'owner@localcoffee.com',
+                    plan: 'Standard',
+                    mrr: 200,
+                    screens: '8/15',
+                    status: 'Active',
+                    nextBilling: '2025-01-12',
+                    paymentStatus: 'current'
+                },
+                {
+                    id: 'sub_003',
+                    name: 'Downtown Fitness',
+                    email: 'manager@dtfitness.com',
+                    plan: 'Basic',
+                    mrr: 150,
+                    screens: '6/10',
+                    status: 'Active',
+                    nextBilling: '2025-01-20',
+                    paymentStatus: 'current'
+                },
+                {
+                    id: 'sub_004',
+                    name: 'Fashion Boutique',
+                    email: 'info@fashionboutique.com',
+                    plan: 'Standard',
+                    mrr: 200,
+                    screens: '10/15',
+                    status: 'Past Due',
+                    nextBilling: '2024-12-28',
+                    paymentStatus: 'failed'
+                },
+                {
+                    id: 'sub_005',
+                    name: 'Restaurant Group',
+                    email: 'billing@restaurantgroup.com',
+                    plan: 'Premium',
+                    mrr: 300,
+                    screens: '18/30',
+                    status: 'Active',
+                    nextBilling: '2025-01-08',
+                    paymentStatus: 'current'
+                }
+            ];
+
+            const tableBody = document.getElementById('subscriberTableBody');
+            tableBody.innerHTML = subscribers.map(sub => `
+                <tr style="border-bottom: 1px solid #e5e7eb;">
+                    <td style="padding: 0.75rem;">
+                        <div>
+                            <strong>${sub.name}</strong><br>
+                            <small style="color: #6b7280;">${sub.email}</small>
+                        </div>
+                    </td>
+                    <td style="padding: 0.75rem;">
+                        <span style="background: ${getPlanColor(sub.plan)}; color: white; padding: 0.25rem 0.5rem; border-radius: 12px; font-size: 0.8rem;">
+                            ${sub.plan}
+                        </span>
+                    </td>
+                    <td style="padding: 0.75rem; font-weight: 600;">$${sub.mrr}</td>
+                    <td style="padding: 0.75rem;">${sub.screens}</td>
+                    <td style="padding: 0.75rem;">
+                        <span style="color: ${getStatusColor(sub.status)}; font-weight: 600;">
+                            ${sub.status}
+                        </span>
+                    </td>
+                    <td style="padding: 0.75rem;">${sub.nextBilling}</td>
+                    <td style="padding: 0.75rem;">
+                        <div style="display: flex; gap: 0.25rem;">
+                            <button class="btn btn-secondary" style="padding: 0.25rem 0.5rem; font-size: 0.8rem;" onclick="viewSubscriber('${sub.id}')">👁️</button>
+                            <button class="btn btn-secondary" style="padding: 0.25rem 0.5rem; font-size: 0.8rem;" onclick="managePayment('${sub.id}')">💳</button>
+                            <button class="btn btn-secondary" style="padding: 0.25rem 0.5rem; font-size: 0.8rem;" onclick="manageScreens('${sub.id}')">📺</button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function getPlanColor(plan) {
+            switch(plan) {
+                case 'Basic': return '#6b7280';
+                case 'Standard': return '#3b82f6';
+                case 'Premium': return '#7c3aed';
+                default: return '#6b7280';
+            }
+        }
+
+        function getStatusColor(status) {
+            switch(status) {
+                case 'Active': return '#166534';
+                case 'Past Due': return '#dc2626';
+                case 'Cancelled': return '#6b7280';
+                default: return '#6b7280';
+            }
+        }
+
+        function viewSubscriber(subscriberId) {
+            alert(`📊 Subscriber Details: ${subscriberId}\n\n• Account overview\n• Payment history\n• Screen usage analytics\n• Campaign performance\n• Support tickets\n\nThis would open a detailed subscriber management panel.`);
+        }
+
+        function managePayment(subscriberId) {
+            const actions = [
+                '💳 Update payment method',
+                '🔄 Retry failed payment',
+                '📧 Send payment reminder',
+                '⏸️ Pause subscription',
+                '📋 View payment history',
+                '💰 Apply credit/discount'
+            ].join('\n');
+            
+            alert(`💳 Payment Management: ${subscriberId}\n\nAvailable actions:\n${actions}\n\nThis would open the payment management interface.`);
+        }
+
+        function manageScreens(subscriberId) {
+            const actions = [
+                '📺 View assigned screens',
+                '📍 Change screen locations',
+                '📊 Screen performance analytics',
+                '⚙️ Screen configuration',
+                '🔄 Sync with OptiSigns',
+                '📈 Usage reports'
+            ].join('\n');
+            
+            alert(`📺 Screen Management: ${subscriberId}\n\nAvailable actions:\n${actions}\n\nThis would open the screen management interface.`);
+        }
+
+        function exportSubscriberData() {
+            alert('📊 Exporting subscriber data...\n\n• Customer list with contact info\n• Revenue breakdown by plan\n• Payment status report\n• Screen utilization data\n• Churn analysis\n\nCSV file will be downloaded.');
+        }
+
+        function refreshSubscriberData() {
+            alert('🔄 Refreshing data from Stripe and OptiSigns...');
+            setTimeout(() => {
+                loadSubscriberData();
+                alert('✅ Data refreshed successfully!');
+            }, 1000);
+        }
+
+        function retryPayment(subscriptionId) {
+            if (confirm('Retry payment for this subscription?')) {
+                alert('🔄 Payment retry initiated. Customer will be notified of the result.');
+            }
+        }
+
+        function contactCustomer(subscriptionId) {
+            alert('📧 Opening email template for payment issue follow-up...\n\nThis would open your email client with a pre-written template for payment issues.');
+        }
+
+        function sendCardUpdateReminder(subscriptionId) {
+            if (confirm('Send card update reminder to customer?')) {
+                alert('📧 Card update reminder sent successfully!');
             }
         }
 
