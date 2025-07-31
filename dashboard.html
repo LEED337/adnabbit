@@ -423,7 +423,22 @@
         }
         @media (max-width: 768px) {
             .tabs {
-                flex-direction: column;
+                /* Keep horizontal layout on mobile */
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: none; /* Firefox */
+                -ms-overflow-style: none; /* IE/Edge */
+            }
+            .tabs::-webkit-scrollbar {
+                display: none; /* Chrome/Safari */
+            }
+            .tab {
+                /* Ensure tabs don't shrink too much on mobile */
+                min-width: 120px;
+                padding: 0.75rem 0.5rem;
+                font-size: 0.9rem;
+                white-space: nowrap;
             }
             .header-content {
                 flex-direction: column;
@@ -438,6 +453,16 @@
             .screen-marker {
                 transform: scale(0.8);
             }
+        }
+
+        @media (max-width: 480px) {
+            .tab {
+                /* Even more compact on very small screens */
+                min-width: 100px;
+                padding: 0.75rem 0.25rem;
+                font-size: 0.8rem;
+            }
+        }
             .screen-marker:hover {
                 transform: scale(0.9);
             }
