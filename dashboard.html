@@ -539,7 +539,7 @@
             </div>
 
             <!-- Map View -->
-            <div id="mapView" style="display: none;">
+            <div id="mapView">
                 <div style="background: white; border-radius: 8px; padding: 1rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-bottom: 2rem;">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
                         <h3 style="color: #1E3A8A; margin: 0;">Screen Network Map</h3>
@@ -571,7 +571,7 @@
             </div>
 
             <!-- List View (existing) -->
-            <div id="listView">
+            <div id="listView" style="display: none;">
                 <div class="locations-grid">
                     <div class="location-card">
                         <div class="location-image">🏢</div>
@@ -1486,8 +1486,8 @@
 
         // Initialize map view on page load
         document.addEventListener('DOMContentLoaded', function() {
-            // Show list view by default
-            showListView();
+            // Show map view by default
+            showMapView();
         });
 
         // Subscriber functions
@@ -1797,6 +1797,11 @@
             
             // Add active class to clicked tab
             event.target.classList.add('active');
+            
+            // If locations tab is selected, default to map view
+            if (tabName === 'locations') {
+                showMapView();
+            }
         }
 
         function uploadNewAd() {
