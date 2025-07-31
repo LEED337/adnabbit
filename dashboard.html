@@ -749,7 +749,7 @@
 
                 <div class="campaign-card">
                     <div class="campaign-header">
-                        <div class="campaign-title">Current Plan: Standard</div>
+                        <div class="campaign-title" id="currentPlanTitle">Current Plan: Standard</div>
                         <span class="campaign-status status-active">Active</span>
                     </div>
                     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1rem;">
@@ -771,7 +771,7 @@
                 </div>
                 
                 <div class="pricing-grid">
-                    <div class="pricing-card">
+                    <div class="pricing-card" id="basicPlanCard">
                         <h3>Basic Plan</h3>
                         <div class="price">$150</div>
                         <p>per month</p>
@@ -781,10 +781,10 @@
                             <li>Email support</li>
                             <li>Standard locations</li>
                         </ul>
-                        <button class="btn btn-secondary" disabled>Current Plan Below</button>
+                        <button id="basicPlanButton" class="btn btn-secondary">Loading...</button>
                     </div>
                     
-                    <div class="pricing-card featured">
+                    <div class="pricing-card" id="standardPlanCard">
                         <h3>Standard Plan</h3>
                         <div class="price">$200</div>
                         <p>per month</p>
@@ -794,10 +794,10 @@
                             <li>Priority support</li>
                             <li>Premium locations</li>
                         </ul>
-                        <button class="btn" style="background: #166534;" disabled>✅ Current Plan</button>
+                        <button id="standardPlanButton" class="btn">Loading...</button>
                     </div>
                     
-                    <div class="pricing-card">
+                    <div class="pricing-card" id="premiumPlanCard">
                         <h3>Premium Plan</h3>
                         <div class="price">$300</div>
                         <p>per month</p>
@@ -807,7 +807,7 @@
                             <li>Phone support</li>
                             <li>All locations + custom</li>
                         </ul>
-                        <button class="btn" onclick="upgradeToPremium()">⬆️ Upgrade</button>
+                        <button id="premiumPlanButton" class="btn">Loading...</button>
                     </div>
                 </div>
 
@@ -1488,6 +1488,9 @@
         document.addEventListener('DOMContentLoaded', function() {
             // Show map view by default
             showMapView();
+            
+            // Initialize pricing buttons and current plan display
+            updatePricingButtons();
         });
 
         // Subscriber functions
@@ -1570,8 +1573,119 @@
             alert('✅ Location selection saved! Changes will be reflected in your next billing cycle.');
         }
 
+        // Current user's plan - this would normally come from your backend/database
+        let userCurrentPlan = 'Standard'; // Can be 'Basic', 'Standard', or 'Premium'
+
+        // Function to simulate changing plans (for testing purposes)
+        function simulateChangePlan(newPlan) {
+            userCurrentPlan = newPlan;
+            updatePricingButtons();
+            console.log(`Plan changed to: ${newPlan}`);
+        }
+
+        function updatePricingButtons() {
+            const basicButton = document.getElementById('basicPlanButton');
+            const standardButton = document.getElementById('standardPlanButton');
+            const premiumButton = document.getElementById('premiumPlanButton');
+            
+            const basicCard = document.getElementById('basicPlanCard');
+            const standardCard = document.getElementById('standardPlanCard');
+            const premiumCard = document.getElementById('premiumPlanCard');
+
+            // Update dashboard display
+            document.getElementById('currentPlan').textContent = userCurrentPlan;
+            document.getElementById('currentPlanTitle').textContent = `Current Plan: ${userCurrentPlan}`;
+
+            // Remove featured class from all cards first
+            basicCard.classList.remove('featured');
+            standardCard.classList.remove('featured');
+            premiumCard.classList.remove('featured');
+
+            if (userCurrentPlan === 'Basic') {
+                // Basic is current plan
+                basicButton.innerHTML = '✅ Current Plan';
+                basicButton.className = 'btn';
+                basicButton.style.background = '#166534';
+                basicButton.disabled = true;
+                basicButton.onclick = null;
+                basicCard.classList.add('featured');
+
+                // Standard and Premium are upgrades
+                standardButton.innerHTML = '⬆️ Upgrade';
+                standardButton.className = 'btn';
+                standardButton.disabled = false;
+                standardButton.onclick = () => upgradeToStandard();
+
+                premiumButton.innerHTML = '⬆️ Upgrade';
+                premiumButton.className = 'btn';
+                premiumButton.disabled = false;
+                premiumButton.onclick = () => upgradeToPremium();
+
+            } else if (userCurrentPlan === 'Standard') {
+                // Basic is downgrade
+                basicButton.innerHTML = '⬇️ Downgrade';
+                basicButton.className = 'btn btn-secondary';
+                basicButton.disabled = false;
+                basicButton.onclick = () => downgradeToBasic();
+
+                // Standard is current plan
+                standardButton.innerHTML = '✅ Current Plan';
+                standardButton.className = 'btn';
+                standardButton.style.background = '#166534';
+                standardButton.disabled = true;
+                standardButton.onclick = null;
+                standardCard.classList.add('featured');
+
+                // Premium is upgrade
+                premiumButton.innerHTML = '⬆️ Upgrade';
+                premiumButton.className = 'btn';
+                premiumButton.disabled = false;
+                premiumButton.onclick = () => upgradeToPremium();
+
+            } else if (userCurrentPlan === 'Premium') {
+                // Basic and Standard are downgrades
+                basicButton.innerHTML = '⬇️ Downgrade';
+                basicButton.className = 'btn btn-secondary';
+                basicButton.disabled = false;
+                basicButton.onclick = () => downgradeToBasic();
+
+                standardButton.innerHTML = '⬇️ Downgrade';
+                standardButton.className = 'btn btn-secondary';
+                standardButton.disabled = false;
+                standardButton.onclick = () => downgradeToStandard();
+
+                // Premium is current plan
+                premiumButton.innerHTML = '✅ Current Plan';
+                premiumButton.className = 'btn';
+                premiumButton.style.background = '#166534';
+                premiumButton.disabled = true;
+                premiumButton.onclick = null;
+                premiumCard.classList.add('featured');
+            }
+        }
+
+        function upgradeToStandard() {
+            window.location.href = 'payment.html?plan=standard&upgrade=true';
+        }
+
         function upgradeToPremium() {
             window.location.href = 'payment.html?plan=premium&upgrade=true';
+        }
+
+        function downgradeToBasic() {
+            if (confirm('Are you sure you want to downgrade to the Basic plan? This will reduce your screen limit and features.')) {
+                // In a real app, this would call your backend API
+                alert('Downgrade to Basic plan initiated. Changes will take effect at your next billing cycle.');
+                // You could redirect to a downgrade confirmation page or handle it via API
+            }
+        }
+
+        function downgradeToStandard() {
+            if (confirm('Are you sure you want to downgrade to the Standard plan? This will reduce your screen limit and features.')) {
+                // In a real app, this would call your backend API
+                alert('Downgrade to Standard plan initiated. Changes will take effect at your next billing cycle.');
+                // You could redirect to a downgrade confirmation page or handle it via API
+            }
         }
 
         function processUpgrade() {
@@ -1801,6 +1915,11 @@
             // If locations tab is selected, default to map view
             if (tabName === 'locations') {
                 showMapView();
+            }
+            
+            // If subscription tab is selected, update pricing buttons
+            if (tabName === 'subscription') {
+                updatePricingButtons();
             }
         }
 
