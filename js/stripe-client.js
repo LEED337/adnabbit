@@ -5,8 +5,8 @@
 
 class StripeClient {
     constructor() {
-        // Replace with your actual Stripe publishable key
-        this.stripe = Stripe('pk_test_51OExample123456789012345678901234567890123456789012345678901234567890');
+        // Your actual Stripe publishable key
+        this.stripe = Stripe('pk_test_51RqnK5LmvO6Fl5tLyHltIld5Q9O6KajWKfA3TkWYwOAZ1XsSDkONUPZCYWAi2jsudMNWVA5Yezw38kDPwIPbwowk00EY7oNO2a');
         this.elements = this.stripe.elements();
         this.cardElement = null;
         

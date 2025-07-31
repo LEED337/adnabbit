@@ -333,7 +333,7 @@
         });
 
         function initializeStripe(amount) {
-            // Initialize Stripe client service
+            // Initialize Stripe client service with your API key
             const stripeClient = new StripeClient();
             const cardElement = stripeClient.initializeElements('card-element');
 
