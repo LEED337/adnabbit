@@ -617,6 +617,25 @@
                 flex-direction: row; /* Keep header horizontal */
                 justify-content: space-between;
             }
+            
+            .user-info {
+                flex-direction: column;
+                align-items: flex-end;
+                gap: 0.25rem;
+            }
+            
+            .user-info #userRole {
+                font-size: 0.75rem;
+                opacity: 0.8;
+                order: 2; /* Place user role below logout button */
+            }
+            
+            .logout-btn {
+                order: 1; /* Place logout button above user role */
+                font-size: 0.8rem;
+                padding: 0.4rem 0.8rem;
+            }
+            
             .stats-grid {
                 grid-template-columns: 1fr;
             }
