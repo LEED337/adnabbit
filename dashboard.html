@@ -428,6 +428,42 @@
             gap: 1rem;
         }
 
+        /* Header Navigation Styles */
+        .header-nav {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            flex: 1;
+            justify-content: center;
+        }
+
+        .header-nav-item {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .header-nav-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .header-nav-item.active {
+            background: rgba(255, 255, 255, 0.2);
+            font-weight: 600;
+        }
+
+        /* Hide old tabs section */
+        .tabs {
+            display: none;
+        }
+
         .hamburger-btn {
             display: none;
             flex-direction: column;
@@ -549,9 +585,20 @@
             font-size: 1.1rem;
         }
 
+        @media (max-width: 1024px) {
+            .header-nav {
+                gap: 1rem; /* Reduce gap on smaller screens */
+            }
+            
+            .header-nav-item {
+                font-size: 0.9rem;
+                padding: 0.4rem 0.8rem;
+            }
+        }
+
         @media (max-width: 768px) {
-            .tabs {
-                display: none; /* Hide regular tabs on mobile */
+            .header-nav {
+                display: none; /* Hide header navigation on mobile */
             }
             
             .hamburger-btn {
@@ -593,6 +640,16 @@
                 <span class="logo-icon">📺</span>
                 AdNabbit
             </div>
+            
+            <!-- Desktop Navigation in Header -->
+            <nav class="header-nav">
+                <button class="header-nav-item active" onclick="showTab('dashboard')">Dashboard</button>
+                <button class="header-nav-item" onclick="showTab('ads')">My Ads</button>
+                <button class="header-nav-item" onclick="showTab('locations')">Select Locations</button>
+                <button class="header-nav-item" onclick="showTab('subscription')">Subscription</button>
+                <button class="header-nav-item admin-section" id="headerAdminTab" onclick="showTab('admin')">Admin Panel</button>
+            </nav>
+            
             <div class="header-right">
                 <div class="user-info">
                     <span id="userRole">Subscriber</span>
@@ -1367,7 +1424,7 @@
         
         // Show admin tab only for administrators
         if (userRole === 'Administrator') {
-            document.getElementById('adminTab').classList.add('show');
+            document.getElementById('headerAdminTab').classList.add('show');
             document.getElementById('mobileAdminTab').classList.add('show');
             document.querySelectorAll('.admin-section').forEach(el => el.classList.add('show'));
             
@@ -2140,16 +2197,20 @@
                 content.classList.remove('active');
             });
             
-            // Remove active class from all tabs
-            document.querySelectorAll('.tab').forEach(tab => {
-                tab.classList.remove('active');
+            // Remove active class from all navigation items (both old tabs and new header nav)
+            document.querySelectorAll('.tab, .header-nav-item').forEach(item => {
+                item.classList.remove('active');
             });
             
             // Show selected tab content
             document.getElementById(tabName).classList.add('active');
             
-            // Add active class to clicked tab
-            event.target.classList.add('active');
+            // Add active class to the corresponding header nav item
+            document.querySelectorAll('.header-nav-item').forEach(item => {
+                if (item.onclick && item.onclick.toString().includes(`'${tabName}'`)) {
+                    item.classList.add('active');
+                }
+            });
             
             // If locations tab is selected, default to map view
             if (tabName === 'locations') {
